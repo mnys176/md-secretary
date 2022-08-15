@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 	// "flag"
 )
 
@@ -52,10 +53,13 @@ Commands:
         the project will not be returning. If no project with the given
         name exists, the command will fail.
 
+    help
+        Displays this help message and exists.
+
 Options:
     --path, -p <path-to-notebook>
         Specifies the path to a notebook. By default, the current
-        working directory is used. Default is the current working directory.
+        working directory is used.
 
     --force, -f
         When using the ` + "`scrap`" + ` or ` + "`import`" + ` command, this will disable
@@ -65,17 +69,29 @@ Options:
     --output, -o <path-to-output-location>
         When using the ` + "`export`" + ` command, this specfies the output path
         to the generated JSON file. Otherwise, this has no effect.
-        Default is the current working directory.`
+        Default is the current working directory.
+
+    --help, -h
+        Displays this help message and exits, ignoring all other input. It
+        usually makes more sense to simply execute the ` + "`help`" + ` command.`
 
 func main() {
-	if len(os.Args[1:]) == 0 {
-		fmt.Println(usage)
-		os.Exit(0)
+	// handle help request before anything else
+	for _, arg := range os.Args {
+		if arg == "--help" || arg == "-h" {
+			fmt.Println(usage)
+			return
+		}
 	}
 
-	cmd := os.Args[1]
+	// check if no command is specified
+	if len(os.Args[1:]) == 0 || strings.HasPrefix(os.Args[1], "-") {
+		fmt.Println("No command specified.")
+		fmt.Println(usage)
+		return
+	}
 
-	switch cmd {
+	switch os.Args[1] {
 	case "contents":
 		fmt.Println("contents")
 	case "create":
@@ -88,7 +104,10 @@ func main() {
 		fmt.Println("import")
 	case "export":
 		fmt.Println("export")
+	case "help":
+		fmt.Println(usage)
 	default:
+		fmt.Printf("Invalid command: `%s`\n", os.Args[1])
 		fmt.Println(usage)
 	}
 }
