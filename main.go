@@ -1,17 +1,21 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
-	// "flag"
 )
 
-const usage string = `Usage:
+const (
+	defaultNotebookRoot    string = "."
+	defaultOutputDirectory string = "."
+	usage                  string = `Usage:
     md-secretary <command> [<options>] <args>
 
 Commands:
-    contents
+    contents <project-name>
         Displays a rundown of every project in a notebook. This rundown
         includes its title, timeline, and abstract.
 
@@ -71,9 +75,21 @@ Options:
         to the generated JSON file. Otherwise, this has no effect.
         Default is the current working directory.
 
+    --transfer, -t
+        When using the ` + "`export`" + ` command, this removes the project from
+        the notebook after generating the JSON file.
+
     --help, -h
         Displays this help message and exits, ignoring all other input. It
         usually makes more sense to simply execute the ` + "`help`" + ` command.`
+)
+
+var (
+	path     string
+	force    bool
+	transfer bool
+	output   string
+)
 
 func main() {
 	// handle help request before anything else
@@ -91,23 +107,66 @@ func main() {
 		return
 	}
 
-	switch os.Args[1] {
+	// parse arguments
+	flag.StringVar(&path, "path", filepath.Clean(defaultNotebookRoot), "")
+	flag.StringVar(&path, "p", filepath.Clean(defaultNotebookRoot), "")
+	flag.BoolVar(&force, "force", false, "")
+	flag.BoolVar(&force, "f", false, "")
+	flag.BoolVar(&transfer, "transfer", false, "")
+	flag.BoolVar(&transfer, "t", false, "")
+	flag.StringVar(&output, "output", filepath.Clean(defaultOutputDirectory), "")
+	flag.StringVar(&output, "o", filepath.Clean(defaultOutputDirectory), "")
+	flag.Parse()
+
+	// only one or the other will be used each run
+	projectName := flag.Arg(1)
+	pathToJson := filepath.Clean(flag.Arg(1))
+
+	switch cmd := os.Args[1]; cmd {
 	case "contents":
-		fmt.Println("contents")
+		handleContents(projectName, path)
 	case "create":
-		fmt.Println("create")
+		handleCreate(projectName, path)
 	case "append":
-		fmt.Println("append")
+		handleAppend(projectName, path)
 	case "scrap":
-		fmt.Println("scrap")
+		handleScrap(projectName, path, force)
 	case "import":
-		fmt.Println("import")
+		handleImport(pathToJson, path, force)
 	case "export":
-		fmt.Println("export")
+		handleExport(projectName, path, transfer)
 	case "help":
-		fmt.Println(usage)
+		handleHelp()
 	default:
-		fmt.Printf("Invalid command: `%s`\n", os.Args[1])
+		fmt.Printf("Invalid command: `%s`\n", cmd)
 		fmt.Println(usage)
 	}
+}
+
+func handleContents(projectName string, path string) {
+	fmt.Println("contents")
+}
+
+func handleCreate(projectName string, path string) {
+	fmt.Println("create")
+}
+
+func handleAppend(projectName string, path string) {
+	fmt.Println("append")
+}
+
+func handleScrap(projectName string, path string, force bool) {
+	fmt.Println("scrap")
+}
+
+func handleImport(projectName string, path string, force bool) {
+	fmt.Println("import")
+}
+
+func handleExport(projectName string, path string, transfer bool) {
+	fmt.Println("export")
+}
+
+func handleHelp() {
+	fmt.Println(usage)
 }
