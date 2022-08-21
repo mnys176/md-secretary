@@ -3,7 +3,8 @@ Usage:
 
 Options:
     --path, -p <path-to-notebook>
-        Specifies the path to a notebook. By default, the current working directory is used.
+        Specifies the path to a notebook. By default, the current
+        working directory is used.
 
     --help, -h
         Displays this help message and exits.

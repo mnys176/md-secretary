@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/mnys176/md-secretary/compress"
 	"github.com/mnys176/md-secretary/contents"
@@ -74,5 +75,10 @@ func main() {
 }
 
 func showGlobalHelp() {
-	fmt.Println("Global usage here...")
+	wd, _ := os.Getwd()
+	data, err := os.ReadFile(filepath.Join(wd, "usage.txt"))
+	if err != nil {
+		panic(err)
+	}
+	os.Stdout.Write(data)
 }

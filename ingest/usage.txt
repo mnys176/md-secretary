@@ -3,10 +3,12 @@ Usage:
 
 Options:
     --path, -p <path-to-notebook>
-        Specifies the path to a notebook. By default, the current working directory is used.
+        Specifies the path to a notebook. By default, the current
+        working directory is used.
 
     --force, -f
-        Disables any confirmation and performs the operation automatically. Use this flag with caution.
+        Disables any confirmation and performs the operation
+        automatically. Use this flag with caution.
 
     --help, -h
         Displays this help message and exits.

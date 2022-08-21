@@ -3,13 +3,16 @@ Usage:
 
 Options:
     --path, -p <path-to-notebook>
-        Specifies the path to a notebook. By default, the current working directory is used.
+        Specifies the path to a notebook. By default, the current
+        working directory is used.
 
     --output, -o <path-to-output-location>
-        Specfies the output path to the generated JSON file. Default is the current working directory.
+        Specfies the output path to the generated JSON file. Default is
+        the current working directory.
 
     --transfer, -t
-        Removes the project from the notebook after generating the JSON file.
+        Removes the project from the notebook after generating the JSON
+        file.
 
     --help, -h
         Displays this help message and exits.
