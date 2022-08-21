@@ -21,7 +21,7 @@ func Build(input []string) (Contents, error) {
 		return Contents{Help: true}, nil
 	}
 
-	// only `--help` option is valid without arguments 
+	// only `--help` option is valid without arguments
 	if len(input) == 2 && input[1] != "-h" && input[1] != "--help" && strings.HasPrefix(input[1], "-") {
 		return Contents{}, fmt.Errorf("Unknown option: `%s`", input[1])
 	}
