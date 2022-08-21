@@ -58,7 +58,7 @@ func Build(input []string) (Extend, error) {
 				addNext = true
 			}
 		default:
-			return parsedExtend, fmt.Errorf("Unknown option: `%s`\n", token)
+			return parsedExtend, fmt.Errorf("Unknown option: `%s`", token)
 		}
 	}
 	return parsedExtend, nil
@@ -70,11 +70,11 @@ func Exec(c *Extend) {
 	}
 }
 
-func Help() {
+func Help() string {
 	wd, _ := os.Getwd()
 	data, err := os.ReadFile(filepath.Join(wd, "extend", "usage.txt"))
 	if err != nil {
 		panic(err)
 	}
-	os.Stdout.Write(data)
+	return string(data)
 }

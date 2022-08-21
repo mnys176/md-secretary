@@ -64,7 +64,7 @@ func Build(input []string) (Scrap, error) {
 				addNext = true
 			}
 		default:
-			return parsedScrap, fmt.Errorf("Unknown option: `%s`\n", token)
+			return parsedScrap, fmt.Errorf("Unknown option: `%s`", token)
 		}
 	}
 	return parsedScrap, nil
@@ -76,11 +76,11 @@ func Exec(c *Scrap) {
 	}
 }
 
-func Help() {
+func Help() string {
 	wd, _ := os.Getwd()
 	data, err := os.ReadFile(filepath.Join(wd, "scrap", "usage.txt"))
 	if err != nil {
 		panic(err)
 	}
-	os.Stdout.Write(data)
+	return string(data)
 }

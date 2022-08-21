@@ -64,7 +64,7 @@ func Build(input []string) (Ingest, error) {
 				addNext = true
 			}
 		default:
-			return parsedIngest, fmt.Errorf("Unknown option: `%s`\n", token)
+			return parsedIngest, fmt.Errorf("Unknown option: `%s`", token)
 		}
 	}
 	return parsedIngest, nil
@@ -76,11 +76,11 @@ func Exec(c *Ingest) {
 	}
 }
 
-func Help() {
+func Help() string {
 	wd, _ := os.Getwd()
 	data, err := os.ReadFile(filepath.Join(wd, "ingest", "usage.txt"))
 	if err != nil {
 		panic(err)
 	}
-	os.Stdout.Write(data)
+	return string(data)
 }

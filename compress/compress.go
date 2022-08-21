@@ -76,7 +76,7 @@ func Build(input []string) (Compress, error) {
 				addNext = true
 			}
 		default:
-			return parsedCompress, fmt.Errorf("Unknown option: `%s`\n", token)
+			return parsedCompress, fmt.Errorf("Unknown option: `%s`", token)
 		}
 	}
 	return parsedCompress, nil
@@ -88,11 +88,11 @@ func Exec(c *Compress) {
 	}
 }
 
-func Help() {
+func Help() string {
 	wd, _ := os.Getwd()
 	data, err := os.ReadFile(filepath.Join(wd, "compress", "usage.txt"))
 	if err != nil {
 		panic(err)
 	}
-	os.Stdout.Write(data)
+	return string(data)
 }

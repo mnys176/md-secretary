@@ -58,7 +58,7 @@ func Build(input []string) (Create, error) {
 				addNext = true
 			}
 		default:
-			return parsedCreate, fmt.Errorf("Unknown option: `%s`\n", token)
+			return parsedCreate, fmt.Errorf("Unknown option: `%s`", token)
 		}
 	}
 	return parsedCreate, nil
@@ -70,11 +70,11 @@ func Exec(c *Create) {
 	}
 }
 
-func Help() {
+func Help() string {
 	wd, _ := os.Getwd()
 	data, err := os.ReadFile(filepath.Join(wd, "create", "usage.txt"))
 	if err != nil {
 		panic(err)
 	}
-	os.Stdout.Write(data)
+	return string(data)
 }

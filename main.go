@@ -27,43 +27,43 @@ func main() {
 	case "contents":
 		executable, err := contents.Build(input)
 		if err != nil {
-			// TODO: Handle errors better here.
-			panic(err)
+			fmt.Println(err)
+			fmt.Println(contents.Help())
 		}
 		contents.Exec(&executable)
 	case "create":
 		executable, err := create.Build(input)
 		if err != nil {
-			// TODO: Handle errors better here.
-			panic(err)
+			fmt.Println(err)
+			fmt.Println(create.Help())
 		}
 		create.Exec(&executable)
 	case "extend":
 		executable, err := extend.Build(input)
 		if err != nil {
-			// TODO: Handle errors better here.
-			panic(err)
+			fmt.Println(err)
+			fmt.Println(extend.Help())
 		}
 		extend.Exec(&executable)
 	case "scrap":
 		executable, err := scrap.Build(input)
 		if err != nil {
-			// TODO: Handle errors better here.
-			panic(err)
+			fmt.Println(err)
+			fmt.Println(scrap.Help())
 		}
 		scrap.Exec(&executable)
 	case "ingest":
 		executable, err := ingest.Build(input)
 		if err != nil {
-			// TODO: Handle errors better here.
-			panic(err)
+			fmt.Println(err)
+			fmt.Println(ingest.Help())
 		}
 		ingest.Exec(&executable)
 	case "compress":
 		executable, err := compress.Build(input)
 		if err != nil {
-			// TODO: Handle errors better here.
-			panic(err)
+			fmt.Println(err)
+			fmt.Println(compress.Help())
 		}
 		compress.Exec(&executable)
 	case "help":
