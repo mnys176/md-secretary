@@ -4,7 +4,7 @@ Usage:
     To learn more about the available options for each command, use the
     `--help` flag like so:
 
-`md-secretary <command> --help`
+    `md-secretary <command> --help`
 
 Commands:
     contents <project-name>

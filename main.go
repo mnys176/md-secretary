@@ -19,7 +19,7 @@ func main() {
 	// check if no command is specified
 	if len(input) == 0 {
 		fmt.Println("No command specified.")
-		showGlobalHelp()
+		fmt.Println(globalHelp())
 		return
 	}
 
@@ -67,18 +67,18 @@ func main() {
 		}
 		compress.Exec(&executable)
 	case "help":
-		showGlobalHelp()
+		fmt.Println(globalHelp())
 	default:
 		fmt.Printf("Invalid command: `%s`\n", cmd)
-		showGlobalHelp()
+		fmt.Println(globalHelp())
 	}
 }
 
-func showGlobalHelp() {
+func globalHelp() string {
 	wd, _ := os.Getwd()
 	data, err := os.ReadFile(filepath.Join(wd, "usage.txt"))
 	if err != nil {
 		panic(err)
 	}
-	os.Stdout.Write(data)
+	return string(data)
 }
