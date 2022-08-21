@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 const defaultNotebookRoot string = "."
@@ -18,6 +19,11 @@ func Build(input []string) (Create, error) {
 	// handle `md-secretary <command>` or `md-secretary <command> --help`
 	if len(input) == 1 || len(input) == 2 && (input[1] == "-h" || input[1] == "--help") {
 		return Create{Help: true}, nil
+	}
+
+	// only `--help` option is valid without arguments 
+	if len(input) == 2 && input[1] != "-h" && input[1] != "--help" && strings.HasPrefix(input[1], "-") {
+		return Create{}, fmt.Errorf("Unknown option: `%s`", input[1])
 	}
 
 	// configuration variables with defaults
@@ -58,7 +64,7 @@ func Build(input []string) (Create, error) {
 				addNext = true
 			}
 		default:
-			return parsedCreate, fmt.Errorf("Unknown option: `%s`", token)
+			return Create{}, fmt.Errorf("Unknown option: `%s`", token)
 		}
 	}
 	return parsedCreate, nil

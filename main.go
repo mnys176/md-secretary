@@ -29,6 +29,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(contents.Help())
+			return
 		}
 		contents.Exec(&executable)
 	case "create":
@@ -36,6 +37,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(create.Help())
+			return
 		}
 		create.Exec(&executable)
 	case "extend":
@@ -43,6 +45,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(extend.Help())
+			return
 		}
 		extend.Exec(&executable)
 	case "scrap":
@@ -50,6 +53,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(scrap.Help())
+			return
 		}
 		scrap.Exec(&executable)
 	case "ingest":
@@ -57,6 +61,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(ingest.Help())
+			return
 		}
 		ingest.Exec(&executable)
 	case "compress":
@@ -64,6 +69,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(compress.Help())
+			return
 		}
 		compress.Exec(&executable)
 	case "help":
