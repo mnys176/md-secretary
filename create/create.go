@@ -1,6 +1,10 @@
 package create
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+)
 
 const defaultNotebookRoot string = "."
 
@@ -62,7 +66,15 @@ func Build(input []string) (Create, error) {
 
 func Exec(c *Create) {
 	if c.Help {
-		fmt.Println("Create usage here...")
+		Help()
 	}
-	fmt.Println(c)
+}
+
+func Help() {
+	wd, _ := os.Getwd()
+	data, err := os.ReadFile(filepath.Join(wd, "create", "usage.txt"))
+	if err != nil {
+		panic(err)
+	}
+	os.Stdout.Write(data)
 }

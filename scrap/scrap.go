@@ -1,6 +1,10 @@
 package scrap
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+)
 
 const defaultNotebookRoot string = "."
 
@@ -68,7 +72,15 @@ func Build(input []string) (Scrap, error) {
 
 func Exec(c *Scrap) {
 	if c.Help {
-		fmt.Println("Scrap usage here...")
+		Help()
 	}
-	fmt.Println(c)
+}
+
+func Help() {
+	wd, _ := os.Getwd()
+	data, err := os.ReadFile(filepath.Join(wd, "scrap", "usage.txt"))
+	if err != nil {
+		panic(err)
+	}
+	os.Stdout.Write(data)
 }

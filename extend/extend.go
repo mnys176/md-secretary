@@ -1,6 +1,10 @@
 package extend
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+)
 
 const defaultNotebookRoot string = "."
 
@@ -62,7 +66,15 @@ func Build(input []string) (Extend, error) {
 
 func Exec(c *Extend) {
 	if c.Help {
-		fmt.Println("Extend usage here...")
+		Help()
 	}
-	fmt.Println(c)
+}
+
+func Help() {
+	wd, _ := os.Getwd()
+	data, err := os.ReadFile(filepath.Join(wd, "extend", "usage.txt"))
+	if err != nil {
+		panic(err)
+	}
+	os.Stdout.Write(data)
 }

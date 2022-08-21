@@ -1,6 +1,10 @@
 package compress
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+)
 
 const (
 	defaultNotebookRoot    string = "."
@@ -80,7 +84,15 @@ func Build(input []string) (Compress, error) {
 
 func Exec(c *Compress) {
 	if c.Help {
-		fmt.Println("Compress usage here...")
+		Help()
 	}
-	fmt.Println(c)
+}
+
+func Help() {
+	wd, _ := os.Getwd()
+	data, err := os.ReadFile(filepath.Join(wd, "compress", "usage.txt"))
+	if err != nil {
+		panic(err)
+	}
+	os.Stdout.Write(data)
 }
