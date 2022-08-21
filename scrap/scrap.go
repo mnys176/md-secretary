@@ -7,13 +7,23 @@ import (
 	"strings"
 )
 
-const defaultNotebookRoot string = "."
+const defaultNotebookPath string = "."
 
 type Scrap struct {
 	ProjectName string
 	Path        string
 	Force       bool
 	Help        bool
+}
+
+func (e *Scrap) String() string {
+	return fmt.Sprintf(
+		"Project Name: %s\nPath        : %s\nForce       : %t\nHelp        : %t",
+		e.ProjectName,
+		e.Path,
+		e.Force,
+		e.Help,
+	)
 }
 
 func Build(input []string) (Scrap, error) {
@@ -28,9 +38,10 @@ func Build(input []string) (Scrap, error) {
 	}
 
 	// configuration variables with defaults
+	absNotebookPath, _ := filepath.Abs(defaultNotebookPath)
 	parsedScrap := Scrap{
 		ProjectName: input[len(input)-1],
-		Path:        defaultNotebookRoot,
+		Path:        absNotebookPath,
 	}
 
 	// check if default behavior is desired (no options)
@@ -46,7 +57,8 @@ func Build(input []string) (Scrap, error) {
 		if addNext {
 			switch previous {
 			case "path":
-				parsedScrap.Path = token
+				absPath, _ := filepath.Abs(token)
+				parsedScrap.Path = absPath
 			}
 			addNext = false
 			continue
@@ -76,15 +88,17 @@ func Build(input []string) (Scrap, error) {
 	return parsedScrap, nil
 }
 
-func Exec(c *Scrap) {
-	if c.Help {
-		Help()
+func Exec(e *Scrap) {
+	if e.Help {
+		fmt.Println(Help())
+		return
 	}
+	fmt.Println(e)
 }
 
 func Help() string {
-	wd, _ := os.Getwd()
-	data, err := os.ReadFile(filepath.Join(wd, "scrap", "usage.txt"))
+	usagePath := filepath.Join("scrap", "usage.txt")
+	data, err := os.ReadFile(usagePath)
 	if err != nil {
 		panic(err)
 	}

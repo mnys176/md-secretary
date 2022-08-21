@@ -7,12 +7,21 @@ import (
 	"strings"
 )
 
-const defaultNotebookRoot string = "."
+const defaultNotebookPath string = "."
 
 type Extend struct {
 	ProjectName string
 	Path        string
 	Help        bool
+}
+
+func (e *Extend) String() string {
+	return fmt.Sprintf(
+		"Project Name: %s\nPath        : %s\nHelp        : %t",
+		e.ProjectName,
+		e.Path,
+		e.Help,
+	)
 }
 
 func Build(input []string) (Extend, error) {
@@ -27,9 +36,10 @@ func Build(input []string) (Extend, error) {
 	}
 
 	// configuration variables with defaults
+	absNotebookPath, _ := filepath.Abs(defaultNotebookPath)
 	parsedExtend := Extend{
 		ProjectName: input[len(input)-1],
-		Path:        defaultNotebookRoot,
+		Path:        absNotebookPath,
 	}
 
 	// check if default behavior is desired (no options)
@@ -45,7 +55,8 @@ func Build(input []string) (Extend, error) {
 		if addNext {
 			switch previous {
 			case "path":
-				parsedExtend.Path = token
+				absPath, _ := filepath.Abs(token)
+				parsedExtend.Path = absPath
 			}
 			addNext = false
 			continue
@@ -70,15 +81,17 @@ func Build(input []string) (Extend, error) {
 	return parsedExtend, nil
 }
 
-func Exec(c *Extend) {
-	if c.Help {
-		Help()
+func Exec(e *Extend) {
+	if e.Help {
+		fmt.Println(Help())
+		return
 	}
+	fmt.Println(e)
 }
 
 func Help() string {
-	wd, _ := os.Getwd()
-	data, err := os.ReadFile(filepath.Join(wd, "extend", "usage.txt"))
+	usagePath := filepath.Join("extend", "usage.txt")
+	data, err := os.ReadFile(usagePath)
 	if err != nil {
 		panic(err)
 	}

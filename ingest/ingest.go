@@ -7,13 +7,23 @@ import (
 	"strings"
 )
 
-const defaultNotebookRoot string = "."
+const defaultNotebookPath string = "."
 
 type Ingest struct {
 	PathToJson string
 	Path       string
 	Force      bool
 	Help       bool
+}
+
+func (e *Ingest) String() string {
+	return fmt.Sprintf(
+		"Path to JSON: %s\nPath        : %s\nForce       : %t\nHelp        : %t",
+		e.PathToJson,
+		e.Path,
+		e.Force,
+		e.Help,
+	)
 }
 
 func Build(input []string) (Ingest, error) {
@@ -28,9 +38,10 @@ func Build(input []string) (Ingest, error) {
 	}
 
 	// configuration variables with defaults
+	absNotebookPath, _ := filepath.Abs(defaultNotebookPath)
 	parsedIngest := Ingest{
 		PathToJson: input[len(input)-1],
-		Path:       defaultNotebookRoot,
+		Path:       absNotebookPath,
 	}
 
 	// check if default behavior is desired (no options)
@@ -46,7 +57,8 @@ func Build(input []string) (Ingest, error) {
 		if addNext {
 			switch previous {
 			case "path":
-				parsedIngest.Path = token
+				absPath, _ := filepath.Abs(token)
+				parsedIngest.Path = absPath
 			}
 			addNext = false
 			continue
@@ -76,15 +88,17 @@ func Build(input []string) (Ingest, error) {
 	return parsedIngest, nil
 }
 
-func Exec(c *Ingest) {
-	if c.Help {
-		Help()
+func Exec(e *Ingest) {
+	if e.Help {
+		fmt.Println(Help())
+		return
 	}
+	fmt.Println(e)
 }
 
 func Help() string {
-	wd, _ := os.Getwd()
-	data, err := os.ReadFile(filepath.Join(wd, "ingest", "usage.txt"))
+	usagePath := filepath.Join("ingest", "usage.txt")
+	data, err := os.ReadFile(usagePath)
 	if err != nil {
 		panic(err)
 	}

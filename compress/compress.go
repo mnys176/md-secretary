@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	defaultNotebookRoot    string = "."
-	defaultOutputDirectory string = "."
+	defaultNotebookPath    string = "."
+	defaultOutputPath string = "."
 )
 
 type Compress struct {
@@ -18,6 +18,17 @@ type Compress struct {
 	Output      string
 	Transfer    bool
 	Help        bool
+}
+
+func (e *Compress) String() string {
+	return fmt.Sprintf(
+		"Project Name: %s\nPath        : %s\nOutput      : %s\nTransfer    : %t\nHelp        : %t",
+		e.ProjectName,
+		e.Path,
+		e.Output,
+		e.Transfer,
+		e.Help,
+	)
 }
 
 func Build(input []string) (Compress, error) {
@@ -32,9 +43,12 @@ func Build(input []string) (Compress, error) {
 	}
 
 	// configuration variables with defaults
+	absNotebookPath, _ := filepath.Abs(defaultNotebookPath)
+	absOutputPath, _ := filepath.Abs(defaultOutputPath)
 	parsedCompress := Compress{
 		ProjectName: input[len(input)-1],
-		Path:        defaultNotebookRoot,
+		Path:        absNotebookPath,
+		Output:      absOutputPath,
 	}
 
 	// check if default behavior is desired (no options)
@@ -50,9 +64,11 @@ func Build(input []string) (Compress, error) {
 		if addNext {
 			switch previous {
 			case "path":
-				parsedCompress.Path = token
+				absPath, _ := filepath.Abs(token)
+				parsedCompress.Path = absPath
 			case "output":
-				parsedCompress.Output = token
+				absPath, _ := filepath.Abs(token)
+				parsedCompress.Output = absPath
 			}
 			addNext = false
 			continue
@@ -88,15 +104,17 @@ func Build(input []string) (Compress, error) {
 	return parsedCompress, nil
 }
 
-func Exec(c *Compress) {
-	if c.Help {
-		Help()
+func Exec(e *Compress) {
+	if e.Help {
+		fmt.Println(Help())
+		return
 	}
+	fmt.Println(e)
 }
 
 func Help() string {
-	wd, _ := os.Getwd()
-	data, err := os.ReadFile(filepath.Join(wd, "compress", "usage.txt"))
+	usagePath := filepath.Join("compress", "usage.txt")
+	data, err := os.ReadFile(usagePath)
 	if err != nil {
 		panic(err)
 	}
