@@ -6,8 +6,8 @@ const defaultNotebookRoot string = "."
 
 type Create struct {
 	ProjectName string
-	Path string
-	Help bool
+	Path        string
+	Help        bool
 }
 
 func Build(input []string) (Create, error) {
@@ -19,7 +19,7 @@ func Build(input []string) (Create, error) {
 	// configuration variables with defaults
 	parsedCreate := Create{
 		ProjectName: input[len(input)-1],
-		Path: defaultNotebookRoot,
+		Path:        defaultNotebookRoot,
 	}
 
 	// check if default behavior is desired (no options)
@@ -30,7 +30,7 @@ func Build(input []string) (Create, error) {
 	var addNext bool
 	var previous string
 	found := map[string]bool{"path": false, "help": false}
-	for _, token := range input[1:len(input)-1] {
+	for _, token := range input[1 : len(input)-1] {
 		// add values to key-value pair options
 		if addNext {
 			switch previous {

@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/mnys176/md-secretary/compress"
 	"github.com/mnys176/md-secretary/contents"
 	"github.com/mnys176/md-secretary/create"
 	"github.com/mnys176/md-secretary/extend"
-	"github.com/mnys176/md-secretary/scrap"
 	"github.com/mnys176/md-secretary/ingest"
-	"github.com/mnys176/md-secretary/compress"
+	"github.com/mnys176/md-secretary/scrap"
 )
 
 func main() {
@@ -18,7 +18,7 @@ func main() {
 	// check if no command is specified
 	if len(input) == 0 {
 		fmt.Println("No command specified.")
-		fmt.Println("Global usage here...")
+		showGlobalHelp()
 		return
 	}
 
@@ -66,9 +66,13 @@ func main() {
 		}
 		compress.Exec(&executable)
 	case "help":
-		fmt.Println("Global usage here...")
+		showGlobalHelp()
 	default:
 		fmt.Printf("Invalid command: `%s`\n", cmd)
-		fmt.Println("Global usage here...")
+		showGlobalHelp()
 	}
+}
+
+func showGlobalHelp() {
+	fmt.Println("Global usage here...")
 }

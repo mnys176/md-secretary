@@ -3,16 +3,16 @@ package compress
 import "fmt"
 
 const (
-	defaultNotebookRoot string = "."
+	defaultNotebookRoot    string = "."
 	defaultOutputDirectory string = "."
 )
 
 type Compress struct {
 	ProjectName string
-	Path string
-	Output string
-	Transfer bool
-	Help bool
+	Path        string
+	Output      string
+	Transfer    bool
+	Help        bool
 }
 
 func Build(input []string) (Compress, error) {
@@ -24,7 +24,7 @@ func Build(input []string) (Compress, error) {
 	// configuration variables with defaults
 	parsedCompress := Compress{
 		ProjectName: input[len(input)-1],
-		Path: defaultNotebookRoot,
+		Path:        defaultNotebookRoot,
 	}
 
 	// check if default behavior is desired (no options)
@@ -35,7 +35,7 @@ func Build(input []string) (Compress, error) {
 	var addNext bool
 	var previous string
 	found := map[string]bool{"path": false, "output": false, "transfer": false, "help": false}
-	for _, token := range input[1:len(input)-1] {
+	for _, token := range input[1 : len(input)-1] {
 		// add values to key-value pair options
 		if addNext {
 			switch previous {
