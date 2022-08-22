@@ -26,7 +26,7 @@ func (e *Scrap) String() string {
 	)
 }
 
-func Build(input []string) (Scrap, error) {
+func Parse(input []string) (Scrap, error) {
 	// handle `md-secretary <command>` or `md-secretary <command> --help`
 	if len(input) == 1 || len(input) == 2 && (input[1] == "-h" || input[1] == "--help") {
 		return Scrap{Help: true}, nil

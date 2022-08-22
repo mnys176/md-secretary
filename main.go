@@ -25,7 +25,7 @@ func main() {
 
 	switch cmd := input[0]; cmd {
 	case "contents":
-		executable, err := contents.Build(input)
+		executable, err := contents.Parse(input)
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(contents.Help())
@@ -33,7 +33,7 @@ func main() {
 		}
 		contents.Exec(&executable)
 	case "create":
-		executable, err := create.Build(input)
+		executable, err := create.Parse(input)
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(create.Help())
@@ -41,7 +41,7 @@ func main() {
 		}
 		create.Exec(&executable)
 	case "extend":
-		executable, err := extend.Build(input)
+		executable, err := extend.Parse(input)
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(extend.Help())
@@ -49,7 +49,7 @@ func main() {
 		}
 		extend.Exec(&executable)
 	case "scrap":
-		executable, err := scrap.Build(input)
+		executable, err := scrap.Parse(input)
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(scrap.Help())
@@ -57,7 +57,7 @@ func main() {
 		}
 		scrap.Exec(&executable)
 	case "ingest":
-		executable, err := ingest.Build(input)
+		executable, err := ingest.Parse(input)
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(ingest.Help())
@@ -65,7 +65,7 @@ func main() {
 		}
 		ingest.Exec(&executable)
 	case "compress":
-		executable, err := compress.Build(input)
+		executable, err := compress.Parse(input)
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println(compress.Help())

@@ -24,7 +24,7 @@ func (e *Extend) String() string {
 	)
 }
 
-func Build(input []string) (Extend, error) {
+func Parse(input []string) (Extend, error) {
 	// handle `md-secretary <command>` or `md-secretary <command> --help`
 	if len(input) == 1 || len(input) == 2 && (input[1] == "-h" || input[1] == "--help") {
 		return Extend{Help: true}, nil

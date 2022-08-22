@@ -24,7 +24,7 @@ func (e *Create) String() string {
 	)
 }
 
-func Build(input []string) (Create, error) {
+func Parse(input []string) (Create, error) {
 	// handle `md-secretary <command>` or `md-secretary <command> --help`
 	if len(input) == 1 || len(input) == 2 && (input[1] == "-h" || input[1] == "--help") {
 		return Create{Help: true}, nil
