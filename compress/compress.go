@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	defaultNotebookPath    string = "."
-	defaultOutputPath string = "."
+	defaultNotebookPath string = "."
+	defaultOutputPath   string = "."
 )
 
 type Compress struct {
