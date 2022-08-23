@@ -1,6 +1,12 @@
 package contents
 
-import "fmt"
+import (
+	_ "embed"
+	"fmt"
+)
+
+//go:embed usage.txt
+var Usage string
 
 type Contents struct {
 	ProjectName string

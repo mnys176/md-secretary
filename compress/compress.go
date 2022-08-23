@@ -1,6 +1,12 @@
 package compress
 
-import "fmt"
+import (
+	_ "embed"
+	"fmt"
+)
+
+//go:embed usage.txt
+var Usage string
 
 type Compress struct {
 	ProjectName string

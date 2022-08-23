@@ -1,0 +1,2 @@
+bar = '/path/to/bar'
+baz = './relative/path/to/baz'

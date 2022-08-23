@@ -1,6 +1,12 @@
 package extend
 
-import "fmt"
+import (
+	_ "embed"
+	"fmt"
+)
+
+//go:embed usage.txt
+var Usage string
 
 type Extend struct {
 	ProjectName string

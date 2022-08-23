@@ -1,6 +1,12 @@
 package scrap
 
-import "fmt"
+import (
+	_ "embed"
+	"fmt"
+)
+
+//go:embed usage.txt
+var Usage string
 
 type Scrap struct {
 	ProjectName string

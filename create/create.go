@@ -1,6 +1,12 @@
 package create
 
-import "fmt"
+import (
+	_ "embed"
+	"fmt"
+)
+
+//go:embed usage.txt
+var Usage string
 
 type Create struct {
 	ProjectName string

@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 	"os"
-	"path/filepath"
+	// "path/filepath"
+	_ "embed"
 
 	"github.com/mnys176/md-secretary/compress"
+	"github.com/mnys176/md-secretary/config"
 	"github.com/mnys176/md-secretary/contents"
 	"github.com/mnys176/md-secretary/create"
 	"github.com/mnys176/md-secretary/extend"
@@ -13,13 +15,17 @@ import (
 	"github.com/mnys176/md-secretary/scrap"
 )
 
+//go:embed usage.txt
+var Usage string
+
 func main() {
+	config.Foo()
 	input := os.Args[1:]
 
 	// check if no command is specified
 	if len(input) == 0 {
 		fmt.Println("No command specified.")
-		fmt.Println(globalHelp())
+		fmt.Println(Usage)
 		return
 	}
 
@@ -28,7 +34,7 @@ func main() {
 		executable, err := contents.Parse(input)
 		if err != nil {
 			fmt.Println(err)
-			fmt.Println(contents.Help())
+			fmt.Println(contents.Usage)
 			return
 		}
 		contents.Handle(&executable)
@@ -36,7 +42,7 @@ func main() {
 		executable, err := create.Parse(input)
 		if err != nil {
 			fmt.Println(err)
-			fmt.Println(create.Help())
+			fmt.Println(create.Usage)
 			return
 		}
 		create.Handle(&executable)
@@ -44,7 +50,7 @@ func main() {
 		executable, err := extend.Parse(input)
 		if err != nil {
 			fmt.Println(err)
-			fmt.Println(extend.Help())
+			fmt.Println(extend.Usage)
 			return
 		}
 		extend.Handle(&executable)
@@ -52,7 +58,7 @@ func main() {
 		executable, err := scrap.Parse(input)
 		if err != nil {
 			fmt.Println(err)
-			fmt.Println(scrap.Help())
+			fmt.Println(scrap.Usage)
 			return
 		}
 		scrap.Handle(&executable)
@@ -60,7 +66,7 @@ func main() {
 		executable, err := ingest.Parse(input)
 		if err != nil {
 			fmt.Println(err)
-			fmt.Println(ingest.Help())
+			fmt.Println(ingest.Usage)
 			return
 		}
 		ingest.Handle(&executable)
@@ -68,23 +74,14 @@ func main() {
 		executable, err := compress.Parse(input)
 		if err != nil {
 			fmt.Println(err)
-			fmt.Println(compress.Help())
+			fmt.Println(compress.Usage)
 			return
 		}
 		compress.Handle(&executable)
 	case "help":
-		fmt.Println(globalHelp())
+		fmt.Println(Usage)
 	default:
 		fmt.Printf("Invalid command: `%s`\n", cmd)
-		fmt.Println(globalHelp())
+		fmt.Println(Usage)
 	}
-}
-
-func globalHelp() string {
-	wd, _ := os.Getwd()
-	data, err := os.ReadFile(filepath.Join(wd, "usage.txt"))
-	if err != nil {
-		panic(err)
-	}
-	return string(data)
 }
