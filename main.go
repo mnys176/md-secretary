@@ -31,7 +31,7 @@ func main() {
 			fmt.Println(contents.Help())
 			return
 		}
-		contents.Exec(&executable)
+		contents.Handle(&executable)
 	case "create":
 		executable, err := create.Parse(input)
 		if err != nil {
@@ -39,7 +39,7 @@ func main() {
 			fmt.Println(create.Help())
 			return
 		}
-		create.Exec(&executable)
+		create.Handle(&executable)
 	case "extend":
 		executable, err := extend.Parse(input)
 		if err != nil {
@@ -47,7 +47,7 @@ func main() {
 			fmt.Println(extend.Help())
 			return
 		}
-		extend.Exec(&executable)
+		extend.Handle(&executable)
 	case "scrap":
 		executable, err := scrap.Parse(input)
 		if err != nil {
@@ -55,7 +55,7 @@ func main() {
 			fmt.Println(scrap.Help())
 			return
 		}
-		scrap.Exec(&executable)
+		scrap.Handle(&executable)
 	case "ingest":
 		executable, err := ingest.Parse(input)
 		if err != nil {
@@ -63,7 +63,7 @@ func main() {
 			fmt.Println(ingest.Help())
 			return
 		}
-		ingest.Exec(&executable)
+		ingest.Handle(&executable)
 	case "compress":
 		executable, err := compress.Parse(input)
 		if err != nil {
@@ -71,7 +71,7 @@ func main() {
 			fmt.Println(compress.Help())
 			return
 		}
-		compress.Exec(&executable)
+		compress.Handle(&executable)
 	case "help":
 		fmt.Println(globalHelp())
 	default:
