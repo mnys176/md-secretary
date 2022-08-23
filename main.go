@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	// "path/filepath"
 	_ "embed"
 
 	"github.com/mnys176/md-secretary/compress"

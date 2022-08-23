@@ -4,7 +4,7 @@ import "fmt"
 
 func Handle(e *Create) {
 	if e.Help {
-		fmt.Println(Help())
+		fmt.Println(Usage)
 		return
 	}
 	fmt.Println(e)
