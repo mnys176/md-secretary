@@ -11,14 +11,21 @@ var Usage string
 type Create struct {
 	ProjectName string
 	Path        string
+	Config        string
 	Help        bool
 }
 
 func (e *Create) String() string {
+	const template string = `Project Name: %s
+Path        : %s
+Config      : %s
+Help        : %t`
+
 	return fmt.Sprintf(
-		"Project Name: %s\nPath        : %s\nHelp        : %t",
+		template,
 		e.ProjectName,
 		e.Path,
+		e.Config,
 		e.Help,
 	)
 }

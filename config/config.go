@@ -1,22 +1,30 @@
 package config
 
 import (
-	"fmt"
-	"path/filepath"
+	_ "embed"
 
 	"github.com/BurntSushi/toml"
 )
 
 type Config struct {
-	Bar string
-	Baz string
+	Notebook struct {
+		Path                   string `toml:"path"`
+		CompactMarkerDirectory bool   `toml:"compact-marker-directory"`
+	}
+	Compression struct {
+		Path      string `toml:"path"`
+		JsonTitle string `toml:"json-title"`
+	}
 }
 
-func Foo() {
+//go:embed default.toml
+var defaultConfigToml string
+
+func Defaults() *Config {
 	c := Config{}
-	_, err := toml.DecodeFile(filepath.Join("config", "default.toml"), &c)
+	_, err := toml.Decode(defaultConfigToml, &c)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
-	fmt.Println(c)
+	return &c
 }

@@ -1,12 +1,11 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
 	"os"
-	_ "embed"
 
 	"github.com/mnys176/md-secretary/compress"
-	"github.com/mnys176/md-secretary/config"
 	"github.com/mnys176/md-secretary/contents"
 	"github.com/mnys176/md-secretary/create"
 	"github.com/mnys176/md-secretary/extend"
@@ -18,7 +17,6 @@ import (
 var Usage string
 
 func main() {
-	config.Foo()
 	input := os.Args[1:]
 
 	// check if no command is specified

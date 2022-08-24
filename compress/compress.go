@@ -11,17 +11,26 @@ var Usage string
 type Compress struct {
 	ProjectName string
 	Path        string
+	Config        string
 	Output      string
 	Transfer    bool
 	Help        bool
 }
 
 func (e *Compress) String() string {
+	const template string = `Project Name: %s
+Path        : %s
+Output      : %s
+Config      : %s
+Transfer    : %t
+Help        : %t`
+
 	return fmt.Sprintf(
-		"Project Name: %s\nPath        : %s\nOutput      : %s\nTransfer    : %t\nHelp        : %t",
+		template,
 		e.ProjectName,
 		e.Path,
 		e.Output,
+		e.Config,
 		e.Transfer,
 		e.Help,
 	)

@@ -6,6 +6,11 @@ Options:
         Specifies the path to a notebook. By default, the current
         working directory is used.
 
+    --config, -c <path-to-config-toml>
+        Specifies a path to a user-defined configuration TOML file. The
+        values in this file will override the defaults baked into the
+        application.
+
     --output, -o <path-to-output-location>
         Specfies the output path to the generated JSON file. Default is
         the current working directory.

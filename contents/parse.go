@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"path/filepath"
 	"strings"
-)
 
-const defaultNotebookPath string = "."
+	"github.com/mnys176/md-secretary/config"
+)
 
 func Parse(input []string) (Contents, error) {
 	// handle `md-secretary <command>` or `md-secretary <command> --help`
@@ -20,7 +20,8 @@ func Parse(input []string) (Contents, error) {
 	}
 
 	// configuration variables with defaults
-	absNotebookPath, _ := filepath.Abs(defaultNotebookPath)
+	cfg := config.Defaults()
+	absNotebookPath, _ := filepath.Abs(cfg.Notebook.Path)
 	parsedContents := Contents{
 		ProjectName: input[len(input)-1],
 		Path:        absNotebookPath,
@@ -41,6 +42,9 @@ func Parse(input []string) (Contents, error) {
 			case "path":
 				absPath, _ := filepath.Abs(token)
 				parsedContents.Path = absPath
+			case "config":
+				absPath, _ := filepath.Abs(token)
+				parsedContents.Config = absPath
 			}
 			addNext = false
 			continue
@@ -56,6 +60,12 @@ func Parse(input []string) (Contents, error) {
 			if !found["path"] {
 				found["path"] = true
 				previous = "path"
+				addNext = true
+			}
+		case "-c", "--config":
+			if !found["config"] {
+				found["config"] = true
+				previous = "config"
 				addNext = true
 			}
 		default:

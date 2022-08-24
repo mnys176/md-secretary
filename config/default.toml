@@ -1,2 +1,50 @@
-bar = '/path/to/bar'
-baz = './relative/path/to/baz'
+# This is the root default configuration for the application. This is
+# embedded directly into the binary at build time, so it cannot be
+# directly modified by the end user. However, the values can be
+# overridden by a custom TOML file using the `--config` option.
+
+# Configuration of notebooks.
+[notebook]
+
+    # Path to the notebook root. Typically, the configuration file
+    # exists within the notebook root, so the default is the current
+    # working directory.
+    path = '.'
+
+    # Indicates whether or not to use a compact naming convention when
+    # a project is extended another month. Take "January, 2022" as an
+    # example. When this value is set to `true`, the resulting marker
+    # directory will be called "jan-22"; when `false`, it will be called
+    # "january-2022".
+    compact-marker-directory = true
+
+# Configuration of the compression process.
+[compression]
+
+    # Directory to output a compressed project JSON file to.
+    path = '.'
+
+    # Naming convention for the generated JSON file after compression.
+    # There are two dynamic values that can be used here: `$project` and
+    # `$date`.
+    #
+    # The `$project` placeholder is replaced by a "filesystem-friendly"
+    # version of the project title.
+    #
+    # The `$date` placeholder is replaced by the date at the time of
+    # compression in the format "MM-DD-YYYY".
+    #
+    # Let's say the project title is "My Project" and the current date
+    # is January 01, 2022. The following examples show how the name will
+    # turn out...
+    #
+    #    json-title = 'foo'            -> "foo.json"
+    #    json-title = '$project'       -> "my-project.json"
+    #    json-title = '$date'          -> "01-01-2022.json"
+    #    json-title = '$project-$date' -> "my-project-01-01-2022.json"
+    #    json-title = '$date-$date'    -> "01-01-2022-01-01-2022.json"
+    #
+    # One can see that these two placeholders can be used together in
+    # any order and any number of time, though that may be a bit
+    # pointless.
+    json-title = '$project'
