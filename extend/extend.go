@@ -11,7 +11,7 @@ var Usage string
 type Extend struct {
 	ProjectName string
 	Path        string
-	Config        string
+	Config      string
 	Help        bool
 }
 

@@ -11,7 +11,7 @@ var Usage string
 type Scrap struct {
 	ProjectName string
 	Path        string
-	Config        string
+	Config      string
 	Force       bool
 	Help        bool
 }

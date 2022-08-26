@@ -11,7 +11,7 @@ var Usage string
 type Create struct {
 	ProjectName string
 	Path        string
-	Config        string
+	Config      string
 	Help        bool
 }
 

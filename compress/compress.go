@@ -11,7 +11,7 @@ var Usage string
 type Compress struct {
 	ProjectName string
 	Path        string
-	Config        string
+	Config      string
 	Output      string
 	Transfer    bool
 	Help        bool
