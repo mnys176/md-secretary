@@ -17,7 +17,6 @@ import (
 var Usage string
 
 func main() {
-	var err error
 	input := os.Args[1:]
 
 	// check if no command is specified
@@ -36,6 +35,9 @@ func main() {
 			return
 		}
 		err = contents.Handle(&executable)
+		if err != nil {
+			fmt.Println(err)
+		}
 	case "create":
 		executable, err := create.Parse(input)
 		if err != nil {
@@ -44,6 +46,9 @@ func main() {
 			return
 		}
 		err = create.Handle(&executable)
+		if err != nil {
+			fmt.Println(err)
+		}
 	case "extend":
 		executable, err := extend.Parse(input)
 		if err != nil {
@@ -52,6 +57,9 @@ func main() {
 			return
 		}
 		err = extend.Handle(&executable)
+		if err != nil {
+			fmt.Println(err)
+		}
 	case "scrap":
 		executable, err := scrap.Parse(input)
 		if err != nil {
@@ -60,6 +68,9 @@ func main() {
 			return
 		}
 		err = scrap.Handle(&executable)
+		if err != nil {
+			fmt.Println(err)
+		}
 	case "ingest":
 		executable, err := ingest.Parse(input)
 		if err != nil {
@@ -68,6 +79,9 @@ func main() {
 			return
 		}
 		err = ingest.Handle(&executable)
+		if err != nil {
+			fmt.Println(err)
+		}
 	case "compress":
 		executable, err := compress.Parse(input)
 		if err != nil {
@@ -76,15 +90,13 @@ func main() {
 			return
 		}
 		err = compress.Handle(&executable)
+		if err != nil {
+			fmt.Println(err)
+		}
 	case "help":
 		fmt.Println(Usage)
 	default:
 		fmt.Printf("Invalid command: `%s`\n", cmd)
 		fmt.Println(Usage)
-	}
-
-	// handle error that occured while command was being handled
-	if err != nil {
-		fmt.Println(err)
 	}
 }
