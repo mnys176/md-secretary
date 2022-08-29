@@ -8,13 +8,59 @@
 # manner.
 display-width = 72
 
+# Configuration of project files.
+[project]
+
+    # Abstract placeholder for newly-generated projects.
+    abstract = """\
+        Briefly summarize the gist of the project by providing some \
+        big-picture goals. Someone who knows nothing about this \
+        should have a good understanding about it after reading this \
+        abstract."""
+
+    # Resources placeholder for newly-generated projects.
+    resources = '''
+* Resources that are directly applicable go here...
+* Another resource...'''
+
+    # Further reading placeholder for newly-generated projects.
+    further-reading = """
+* Resources that are indirectly applicable go here...
+* Another resource..."""
+
+# Configuration of log files.
+[log]
+
+    # Content placeholder in log files for newly-generated projects.
+    content = '''
+* Brain dump goes here.
+    * Anything interesting that you find at all.
+    * It does not matter if it is that important, it could be useful!
+* Brain dumps are awesome.
+    * Everyone should do this...'''
+
+# Configuration of summary files.
+[summary]
+
+    # Summary placeholder in summary files for newly-generated projects.
+    summary = """\
+        Here goes a summary of a big milestone that occured during \
+        this month."""
+
+    # Content placeholder in summary files for newly-generated projects.
+    content = '''
+* Milestones go here.
+    * Any elaboration for this milestone is appreciated.
+* If something else really cool happened, do not be shy!
+* Why is this a really important milestone?'''
+
 # Configuration of notebooks.
 [notebook]
 
     # Path to the notebook root. Typically, the configuration file
     # exists within the notebook root, so the default is the current
     # working directory.
-    path = '.'
+    path = 'notebook'
 
     # Indicates whether or not to use a compact naming convention when
     # a project is extended another month. Take "January, 2022" as an

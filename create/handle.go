@@ -2,10 +2,10 @@ package create
 
 import (
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/mnys176/md-secretary/project"
+	"github.com/mnys176/md-secretary/utils"
 )
 
 func Handle(e *Create) {
@@ -15,13 +15,13 @@ func Handle(e *Create) {
 	}
 	fmt.Println(e)
 
-	year, month, _ := time.Now().Date()
+	year, month, day := time.Now().Date()
 	p := project.Project{
 		Title:       e.ProjectTitle,
-		SystemTitle: strings.ToLower(strings.ReplaceAll(e.ProjectTitle, " ", "-")),
+		SystemTitle: utils.Systemify(e.ProjectTitle),
 		Abstract:    "",
-		Start:       time.Date(year, month, 1, 0, 0, 0, 0, time.UTC),
-		End:         time.Date(year, month, 1, 0, 0, 0, 0, time.UTC),
+		Start:       time.Date(year, month, day, 0, 0, 0, 0, time.UTC),
+		End:         time.Date(year, month, day, 0, 0, 0, 0, time.UTC),
 	}
 
 	err := p.Build(e.Path)
