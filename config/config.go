@@ -2,6 +2,7 @@ package config
 
 import (
 	_ "embed"
+	"path/filepath"
 
 	"github.com/BurntSushi/toml"
 )
@@ -33,11 +34,25 @@ type Config struct {
 //go:embed default.toml
 var defaultConfigToml string
 
-func Defaults() *Config {
+func Defaults() (*Config, error) {
 	c := Config{}
 	_, err := toml.Decode(defaultConfigToml, &c)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	return &c
+	return &c, nil
+}
+
+func Custom(path string) (*Config, error) {
+	c := Config{}
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = toml.DecodeFile(absPath, &c)
+	if err != nil {
+		return nil, err
+	}
+	return &c, nil
 }

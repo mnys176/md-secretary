@@ -37,8 +37,7 @@ var logTemplateTmpl string
 //go:embed templates/summary.tmpl
 var summaryTemplateTmpl string
 
-func (m Marker) Build(projectPath string) error {
-	cfg := config.Defaults()
+func (m Marker) Build(projectPath string, cfg *config.Config) error {
 	var mode string = "January-06"
 	if cfg.Notebook.CompactMarkerDirectory {
 		mode = "Jan-06"

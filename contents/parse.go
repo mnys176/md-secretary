@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"path/filepath"
 	"strings"
-
-	"github.com/mnys176/md-secretary/config"
 )
 
 func Parse(input []string) (Contents, error) {
@@ -19,13 +17,8 @@ func Parse(input []string) (Contents, error) {
 		return Contents{}, fmt.Errorf("Unknown option: `%s`", input[1])
 	}
 
-	// configuration variables with defaults
-	cfg := config.Defaults()
-	absNotebookPath, _ := filepath.Abs(cfg.Notebook.Path)
-	parsedContents := Contents{
-		ProjectTitle: input[len(input)-1],
-		Path:         absNotebookPath,
-	}
+	// stored `contents` command
+	parsedContents := Contents{ProjectTitle: input[len(input)-1]}
 
 	// check if default behavior is desired (no options)
 	if len(input) == 2 {
@@ -34,7 +27,7 @@ func Parse(input []string) (Contents, error) {
 
 	var addNext bool
 	var previous string
-	found := map[string]bool{"path": false, "help": false}
+	found := map[string]bool{"path": false, "config": false, "help": false}
 	for _, token := range input[1 : len(input)-1] {
 		// add values to key-value pair options
 		if addNext {

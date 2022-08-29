@@ -18,10 +18,10 @@ type Ingest struct {
 
 func (e *Ingest) String() string {
 	const template string = `Path to JSON: %s
-Path        : %s
-Config      : %s
-Force       : %t
-Help        : %t`
+Path         : %s
+Config       : %s
+Force        : %t
+Help         : %t`
 
 	return fmt.Sprintf(
 		template,

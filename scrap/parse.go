@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"path/filepath"
 	"strings"
-
-	"github.com/mnys176/md-secretary/config"
 )
 
 func Parse(input []string) (Scrap, error) {
@@ -19,13 +17,8 @@ func Parse(input []string) (Scrap, error) {
 		return Scrap{}, fmt.Errorf("Unknown option: `%s`", input[1])
 	}
 
-	// configuration variables with defaults
-	cfg := config.Defaults()
-	absNotebookPath, _ := filepath.Abs(cfg.Notebook.Path)
-	parsedScrap := Scrap{
-		ProjectTitle: input[len(input)-1],
-		Path:         absNotebookPath,
-	}
+	// stored `ingest` command
+	parsedScrap := Scrap{ProjectTitle: input[len(input)-1]}
 
 	// check if default behavior is desired (no options)
 	if len(input) == 2 {

@@ -17,9 +17,9 @@ type Extend struct {
 
 func (e *Extend) String() string {
 	const template string = `Project Title: %s
-Path        : %s
-Config      : %s
-Help        : %t`
+Path         : %s
+Config       : %s
+Help         : %t`
 
 	return fmt.Sprintf(
 		template,

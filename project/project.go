@@ -31,7 +31,7 @@ type (
 //go:embed templates/project.tmpl
 var projectTemplateTmpl string
 
-func (p Project) String() string {
+func (p Project) String(cfg config.Config) string {
 	var startString string = p.Start.Format("Jan '06")
 	var endString string = p.End.Format("Jan '06")
 	var heading string = p.Title + " (" + startString + " - " + endString + ")"
@@ -42,12 +42,11 @@ func (p Project) String() string {
 	return fmt.Sprintf(
 		"%s\n\n%s\n",
 		heading,
-		utils.ChopString(p.Abstract, config.Defaults().DisplayWidth),
+		utils.ChopString(p.Abstract, cfg.DisplayWidth),
 	)
 }
 
-func (p Project) Build(path string) error {
-	cfg := config.Defaults()
+func (p Project) Build(path string, cfg *config.Config) error {
 	projectPath := filepath.Join(path, p.SystemTitle)
 	projectFilePath := filepath.Join(projectPath, p.SystemTitle+".md")
 	mediaPath := filepath.Join(projectPath, "media")
@@ -83,7 +82,7 @@ func (p Project) Build(path string) error {
 
 	// build first marker
 	m := Marker{Date: p.Start}
-	err = m.Build(projectPath)
+	err = m.Build(projectPath, cfg)
 	if err != nil {
 		return err
 	}

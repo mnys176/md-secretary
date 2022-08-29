@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"path/filepath"
 	"strings"
-
-	"github.com/mnys176/md-secretary/config"
 )
 
 func Parse(input []string) (Compress, error) {
@@ -19,15 +17,8 @@ func Parse(input []string) (Compress, error) {
 		return Compress{}, fmt.Errorf("Unknown option: `%s`", input[1])
 	}
 
-	// configuration variables with defaults
-	cfg := config.Defaults()
-	absNotebookPath, _ := filepath.Abs(cfg.Notebook.Path)
-	absCompressionPath, _ := filepath.Abs(cfg.Compression.Path)
-	parsedCompress := Compress{
-		ProjectTitle: input[len(input)-1],
-		Path:         absNotebookPath,
-		Output:       absCompressionPath,
-	}
+	// stored `compress` command
+	parsedCompress := Compress{ProjectTitle: input[len(input)-1]}
 
 	// check if default behavior is desired (no options)
 	if len(input) == 2 {
@@ -36,7 +27,7 @@ func Parse(input []string) (Compress, error) {
 
 	var addNext bool
 	var previous string
-	found := map[string]bool{"path": false, "output": false, "transfer": false, "help": false}
+	found := map[string]bool{"path": false, "output": false, "config": false, "transfer": false, "help": false}
 	for _, token := range input[1 : len(input)-1] {
 		// add values to key-value pair options
 		if addNext {

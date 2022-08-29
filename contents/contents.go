@@ -17,9 +17,9 @@ type Contents struct {
 
 func (e *Contents) String() string {
 	const template string = `Project Title: %s
-Path        : %s
-Config      : %s
-Help        : %t`
+Path         : %s
+Config       : %s
+Help         : %t`
 
 	return fmt.Sprintf(
 		template,

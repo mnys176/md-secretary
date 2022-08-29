@@ -19,11 +19,11 @@ type Compress struct {
 
 func (e *Compress) String() string {
 	const template string = `Project Title: %s
-Path        : %s
-Output      : %s
-Config      : %s
-Transfer    : %t
-Help        : %t`
+Path         : %s
+Output       : %s
+Config       : %s
+Transfer     : %t
+Help         : %t`
 
 	return fmt.Sprintf(
 		template,

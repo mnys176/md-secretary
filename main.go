@@ -17,6 +17,7 @@ import (
 var Usage string
 
 func main() {
+	var err error
 	input := os.Args[1:]
 
 	// check if no command is specified
@@ -34,7 +35,7 @@ func main() {
 			fmt.Println(contents.Usage)
 			return
 		}
-		contents.Handle(&executable)
+		err = contents.Handle(&executable)
 	case "create":
 		executable, err := create.Parse(input)
 		if err != nil {
@@ -42,7 +43,7 @@ func main() {
 			fmt.Println(create.Usage)
 			return
 		}
-		create.Handle(&executable)
+		err = create.Handle(&executable)
 	case "extend":
 		executable, err := extend.Parse(input)
 		if err != nil {
@@ -50,7 +51,7 @@ func main() {
 			fmt.Println(extend.Usage)
 			return
 		}
-		extend.Handle(&executable)
+		err = extend.Handle(&executable)
 	case "scrap":
 		executable, err := scrap.Parse(input)
 		if err != nil {
@@ -58,7 +59,7 @@ func main() {
 			fmt.Println(scrap.Usage)
 			return
 		}
-		scrap.Handle(&executable)
+		err = scrap.Handle(&executable)
 	case "ingest":
 		executable, err := ingest.Parse(input)
 		if err != nil {
@@ -66,7 +67,7 @@ func main() {
 			fmt.Println(ingest.Usage)
 			return
 		}
-		ingest.Handle(&executable)
+		err = ingest.Handle(&executable)
 	case "compress":
 		executable, err := compress.Parse(input)
 		if err != nil {
@@ -74,11 +75,16 @@ func main() {
 			fmt.Println(compress.Usage)
 			return
 		}
-		compress.Handle(&executable)
+		err = compress.Handle(&executable)
 	case "help":
 		fmt.Println(Usage)
 	default:
 		fmt.Printf("Invalid command: `%s`\n", cmd)
 		fmt.Println(Usage)
+	}
+
+	// handle error that occured while command was being handled
+	if err != nil {
+		fmt.Println(err)
 	}
 }
