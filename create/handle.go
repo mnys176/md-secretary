@@ -13,6 +13,9 @@ func Handle(e *Create) {
 		fmt.Println(Usage)
 		return
 	}
+	if len(e.Config) > 0 {
+		// TODO: Fixed option hierarchy so that inline > config file > default.
+	}
 	fmt.Println(e)
 
 	year, month, day := time.Now().Date()
