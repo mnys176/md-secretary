@@ -19,7 +19,7 @@ func (m Marker) Build(projectPath string) error {
 	if cfg.Notebook.CompactMarkerDirectory {
 		mode = "Jan-06"
 	}
-	markerPath := filepath.Join(projectPath, strings.ToLower(mode))
+	markerPath := filepath.Join(projectPath, strings.ToLower(m.Date.Format(mode)))
 	logFilePath := filepath.Join(markerPath, "log.md")
 	summaryFilePath := filepath.Join(markerPath, "summary.md")
 
