@@ -9,9 +9,9 @@ import (
 
 type Config struct {
 	DisplayWidth int `toml:"display-width"`
-	Project struct {
-		Abstract string `toml:"abstract"`
-		Resources string `toml:"resources"`
+	Project      struct {
+		Abstract       string `toml:"abstract"`
+		Resources      string `toml:"resources"`
 		FurtherReading string `toml:"further-reading"`
 	}
 	Log struct {
@@ -21,7 +21,7 @@ type Config struct {
 		Summary string `toml:"summary"`
 		Content string `toml:"content"`
 	}
-	Notebook     struct {
+	Notebook struct {
 		Path                   string `toml:"path"`
 		CompactMarkerDirectory bool   `toml:"compact-marker-directory"`
 	}

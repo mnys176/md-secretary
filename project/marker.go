@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"time"
 	"text/template"
+	"time"
 
 	"github.com/mnys176/md-secretary/config"
 	"github.com/mnys176/md-secretary/utils"
@@ -17,17 +17,17 @@ type (
 		Date time.Time
 	}
 	LogTemplateData struct {
-		Title string
+		Title      string
 		MarkerDate string
-		Date string
-		Content string
+		Date       string
+		Content    string
 	}
 	SummaryTemplateData struct {
-		Title string
+		Title      string
 		MarkerDate string
-		Date string
-		Summary string
-		Content string
+		Date       string
+		Summary    string
+		Content    string
 	}
 )
 
@@ -62,10 +62,10 @@ func (m Marker) Build(projectPath string, cfg *config.Config) error {
 	// render template and populate log file with starter content
 	logTemplate := template.Must(template.New("log").Parse(logTemplateTmpl))
 	err = logTemplate.Execute(logFile, LogTemplateData{
-		Title: utils.Desystemify(filepath.Base(projectPath)),
+		Title:      utils.Desystemify(filepath.Base(projectPath)),
 		MarkerDate: m.Date.Format("January, 2006"),
-		Date: m.Date.Format("Monday, 01/02"),
-		Content: cfg.Log.Content,
+		Date:       m.Date.Format("Monday, 01/02"),
+		Content:    cfg.Log.Content,
 	})
 	if err != nil {
 		return err
@@ -81,11 +81,11 @@ func (m Marker) Build(projectPath string, cfg *config.Config) error {
 	// render template and populate summary file with starter content
 	summaryTemplate := template.Must(template.New("summary").Parse(summaryTemplateTmpl))
 	err = summaryTemplate.Execute(summaryFile, SummaryTemplateData{
-		Title: utils.Desystemify(filepath.Base(projectPath)),
+		Title:      utils.Desystemify(filepath.Base(projectPath)),
 		MarkerDate: m.Date.Format("January, 2006"),
-		Date: m.Date.Format("Monday, 01/02"),
-		Summary: cfg.Summary.Summary,
-		Content: cfg.Summary.Content,
+		Date:       m.Date.Format("Monday, 01/02"),
+		Summary:    cfg.Summary.Summary,
+		Content:    cfg.Summary.Content,
 	})
 	if err != nil {
 		return err

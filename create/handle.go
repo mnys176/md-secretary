@@ -2,8 +2,8 @@ package create
 
 import (
 	"fmt"
-	"time"
 	"path/filepath"
+	"time"
 
 	"github.com/mnys176/md-secretary/config"
 	"github.com/mnys176/md-secretary/project"

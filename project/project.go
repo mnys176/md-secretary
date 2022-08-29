@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"time"
 	"text/template"
+	"time"
 
 	"github.com/mnys176/md-secretary/config"
 	"github.com/mnys176/md-secretary/utils"
@@ -21,9 +21,9 @@ type (
 		End         time.Time
 	}
 	ProjectTemplateData struct {
-		Title string
-		Abstract string
-		Resources string
+		Title          string
+		Abstract       string
+		Resources      string
 		FurtherReading string
 	}
 )
@@ -71,9 +71,9 @@ func (p Project) Build(path string, cfg *config.Config) error {
 	// render template and populate with starter content
 	projectTemplate := template.Must(template.New("project").Parse(projectTemplateTmpl))
 	err = projectTemplate.Execute(projectFile, ProjectTemplateData{
-		Title: p.Title,
-		Abstract: cfg.Project.Abstract,
-		Resources: cfg.Project.Resources,
+		Title:          p.Title,
+		Abstract:       cfg.Project.Abstract,
+		Resources:      cfg.Project.Resources,
 		FurtherReading: cfg.Project.FurtherReading,
 	})
 	if err != nil {
