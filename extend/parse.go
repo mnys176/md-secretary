@@ -23,8 +23,8 @@ func Parse(input []string) (Extend, error) {
 	cfg := config.Defaults()
 	absNotebookPath, _ := filepath.Abs(cfg.Notebook.Path)
 	parsedExtend := Extend{
-		ProjectName: input[len(input)-1],
-		Path:        absNotebookPath,
+		ProjectTitle: input[len(input)-1],
+		Path:         absNotebookPath,
 	}
 
 	// check if default behavior is desired (no options)

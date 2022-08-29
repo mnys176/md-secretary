@@ -9,16 +9,16 @@ import (
 var Usage string
 
 type Compress struct {
-	ProjectName string
-	Path        string
-	Config      string
-	Output      string
-	Transfer    bool
-	Help        bool
+	ProjectTitle string
+	Path         string
+	Config       string
+	Output       string
+	Transfer     bool
+	Help         bool
 }
 
 func (e *Compress) String() string {
-	const template string = `Project Name: %s
+	const template string = `Project Title: %s
 Path        : %s
 Output      : %s
 Config      : %s
@@ -27,7 +27,7 @@ Help        : %t`
 
 	return fmt.Sprintf(
 		template,
-		e.ProjectName,
+		e.ProjectTitle,
 		e.Path,
 		e.Output,
 		e.Config,

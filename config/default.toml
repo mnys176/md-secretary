@@ -3,6 +3,11 @@
 # directly modified by the end user. However, the values can be
 # overridden by a custom TOML file using the `--config` option.
 
+# When using the CLI, sets desired width of the output in characters.
+# This ensures that the output looks halfway decent in an kina-flexible
+# manner.
+display-width = 72
+
 # Configuration of notebooks.
 [notebook]
 

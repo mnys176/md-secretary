@@ -24,9 +24,9 @@ func Parse(input []string) (Compress, error) {
 	absNotebookPath, _ := filepath.Abs(cfg.Notebook.Path)
 	absCompressionPath, _ := filepath.Abs(cfg.Compression.Path)
 	parsedCompress := Compress{
-		ProjectName: input[len(input)-1],
-		Path:        absNotebookPath,
-		Output:      absCompressionPath,
+		ProjectTitle: input[len(input)-1],
+		Path:         absNotebookPath,
+		Output:       absCompressionPath,
 	}
 
 	// check if default behavior is desired (no options)

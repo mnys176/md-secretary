@@ -7,7 +7,8 @@ import (
 )
 
 type Config struct {
-	Notebook struct {
+	DisplayWidth int `toml:"display-width"`
+	Notebook     struct {
 		Path                   string `toml:"path"`
 		CompactMarkerDirectory bool   `toml:"compact-marker-directory"`
 	}
