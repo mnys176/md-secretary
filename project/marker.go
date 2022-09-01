@@ -39,7 +39,7 @@ var summaryTemplateTmpl string
 
 func (m Marker) Build(projectPath string, cfg *config.Config) error {
 	var mode string = "January-06"
-	if cfg.Notebook.CompactMarkerDirectory {
+	if cfg.Notebook.CompactMarkerDirectory == "compact" {
 		mode = "Jan-06"
 	}
 	markerPath := filepath.Join(projectPath, strings.ToLower(m.Date.Format(mode)))

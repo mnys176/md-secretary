@@ -2,6 +2,7 @@ package contents
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/mnys176/md-secretary/config"
@@ -26,7 +27,14 @@ func Handle(e *Contents) error {
 			return err
 		}
 
-		cfg, err = config.Custom(e.Config)
+		// ensure path to custom configuration exists
+		_, err = os.Stat(e.Config)
+		if err != nil {
+			return err
+		}
+
+		// load custom configuration
+		err = cfg.Customize(e.Config)
 		if err != nil {
 			return err
 		}

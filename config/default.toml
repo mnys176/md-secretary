@@ -64,10 +64,10 @@ display-width = 72
 
     # Indicates whether or not to use a compact naming convention when
     # a project is extended another month. Take "January, 2022" as an
-    # example. When this value is set to `true`, the resulting marker
-    # directory will be called "jan-22"; when `false`, it will be called
-    # "january-2022".
-    compact-marker-directory = true
+    # example. When this value is set to `compact`, the resulting marker
+    # directory will be called "jan-22"; when `comfortable`, it will be
+    # called "january-2022".
+    compact-marker-directory = "compact"
 
 # Configuration of the compression process.
 [compression]
