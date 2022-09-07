@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"time"
 
 	"github.com/mnys176/md-secretary/config"
 	"github.com/mnys176/md-secretary/project"
-	"github.com/mnys176/md-secretary/utils"
 )
 
 func Handle(e *Create) error {
@@ -51,14 +49,7 @@ func Handle(e *Create) error {
 		}
 	}
 
-	year, month, day := time.Now().Date()
-	p := project.Project{
-		Title:       e.ProjectTitle,
-		SystemTitle: utils.Systemify(e.ProjectTitle),
-		Start:       time.Date(year, month, day, 0, 0, 0, 0, time.UTC),
-		End:         time.Date(year, month, day, 0, 0, 0, 0, time.UTC),
-	}
-
+	p := project.New(e.ProjectTitle)
 	err = p.Build(e.Path, cfg)
 	if err != nil {
 		return err

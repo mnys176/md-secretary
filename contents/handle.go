@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/mnys176/md-secretary/config"
+	"github.com/mnys176/md-secretary/project"
 )
 
 func Handle(e *Contents) error {
@@ -47,6 +48,12 @@ func Handle(e *Contents) error {
 			return err
 		}
 	}
-	fmt.Println(e)
+
+	p, err := project.Load(e.Path, e.ProjectTitle)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("\n" + p.String(cfg) + "\n")
 	return nil
 }

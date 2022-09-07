@@ -2,11 +2,11 @@ package project
 
 import (
 	_ "embed"
-	"fmt"
+	// "fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"text/template"
-	"time"
 
 	"github.com/mnys176/md-secretary/config"
 	"github.com/mnys176/md-secretary/utils"
@@ -17,8 +17,8 @@ type (
 		Title       string
 		SystemTitle string
 		Abstract    string
-		Start       time.Time
-		End         time.Time
+		Start       Marker
+		End         Marker
 	}
 	ProjectTemplateData struct {
 		Title          string
@@ -31,19 +31,60 @@ type (
 //go:embed templates/project.tmpl
 var projectTemplateTmpl string
 
-func (p Project) String(cfg config.Config) string {
-	var startString string = p.Start.Format("Jan '06")
-	var endString string = p.End.Format("Jan '06")
-	var heading string = p.Title + " (" + startString + " - " + endString + ")"
+func (p Project) String(cfg *config.Config) string {
+	var (
+		titleContentWidth    int = cfg.DisplayWidth - 24
+		markerContentWidth   int = 17
+		abstractContentWidth int = cfg.DisplayWidth - 4
+	)
+	var start string = p.Start.Date.Format("Jan '06")
+	var end string = p.End.Date.Format("Jan '06")
+	var builder strings.Builder
+
+	// build border then reset
+	builder.WriteString("+")
+	builder.WriteString(strings.Repeat("-", titleContentWidth+2))
+	builder.WriteString("+")
+	builder.WriteString(strings.Repeat("-", markerContentWidth+2))
+	builder.WriteString("+\n")
+	border := builder.String()
+	builder.Reset()
+	builder.WriteString(border)
+
+	// ensure title fits in content area
+	titleLines := strings.Split(utils.ChopString(p.Title, titleContentWidth), "\n")
+	for i, line := range titleLines {
+		builder.WriteString("| ")
+		builder.WriteString(line)
+		builder.WriteString(strings.Repeat(" ", titleContentWidth-len(line)))
+		builder.WriteString(" | ")
+		if i == 0 {
+			builder.WriteString(start)
+			builder.WriteString(" - ")
+			builder.WriteString(end)
+		} else {
+			builder.WriteString(strings.Repeat(" ", markerContentWidth))
+		}
+		builder.WriteString(" |\n")
+	}
+	builder.WriteString(border)
+
 	if len(p.Abstract) == 0 {
-		return heading
+		return strings.TrimSuffix(builder.String(), "\n")
 	}
 
-	return fmt.Sprintf(
-		"%s\n\n%s\n",
-		heading,
-		utils.ChopString(p.Abstract, cfg.DisplayWidth),
-	)
+	// ensure abstract fits in content area
+	abstractLines := strings.Split(utils.ChopString(p.Abstract, abstractContentWidth), "\n")
+	for _, line := range abstractLines {
+		line = strings.TrimSuffix(line, " ")
+		builder.WriteString("| ")
+		builder.WriteString(line)
+		builder.WriteString(strings.Repeat(" ", abstractContentWidth-len(line)))
+		builder.WriteString(" |\n")
+	}
+	border = strings.ReplaceAll(border, "-+-", "---")
+	builder.WriteString(border)
+	return strings.TrimSuffix(builder.String(), "\n")
 }
 
 func (p Project) Build(path string, cfg *config.Config) error {
@@ -81,7 +122,7 @@ func (p Project) Build(path string, cfg *config.Config) error {
 	}
 
 	// build first marker
-	m := Marker{Date: p.Start}
+	m := Marker{Date: p.Start.Date}
 	err = m.Build(projectPath, cfg)
 	if err != nil {
 		return err

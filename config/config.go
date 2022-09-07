@@ -41,11 +41,69 @@ func Defaults() (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	err = c.validate()
+	if err != nil {
+		return nil, err
+	}
 	return &c, nil
 }
 
-func (c Config) Validate() error {
-	if c.DisplayWidth <= 0 {
+func (c *Config) Customize(path string) error {
+	custom := Config{}
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		return err
+	}
+
+	_, err = toml.DecodeFile(absPath, &custom)
+	if err != nil {
+		return err
+	}
+
+	if custom.DisplayWidth > 0 {
+		c.DisplayWidth = custom.DisplayWidth
+	}
+	if custom.Notebook.Path != "" {
+		c.Notebook.Path = custom.Notebook.Path
+	}
+	if custom.Notebook.CompactMarkerDirectory != "" {
+		c.Notebook.CompactMarkerDirectory = custom.Notebook.CompactMarkerDirectory
+	}
+	if custom.Compression.Path != "" {
+		c.Compression.Path = custom.Compression.Path
+	}
+	if custom.Compression.JsonTitle != "" {
+		c.Compression.JsonTitle = custom.Compression.JsonTitle
+	}
+	if custom.Project.Abstract != "" {
+		c.Project.Abstract = custom.Project.Abstract
+	}
+	if custom.Project.Resources != "" {
+		c.Project.Resources = custom.Project.Resources
+	}
+	if custom.Project.FurtherReading != "" {
+		c.Project.FurtherReading = custom.Project.FurtherReading
+	}
+	if custom.Log.Content != "" {
+		c.Log.Content = custom.Log.Content
+	}
+	if custom.Summary.Content != "" {
+		c.Summary.Content = custom.Summary.Content
+	}
+	if custom.Summary.Summary != "" {
+		c.Summary.Summary = custom.Summary.Summary
+	}
+
+	err = c.validate()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c Config) validate() error {
+	if c.DisplayWidth < 56 || c.DisplayWidth > 256 {
 		return fmt.Errorf(
 			"Invalid value for `display-width`: `%d`",
 			c.DisplayWidth,
@@ -115,59 +173,6 @@ func (c Config) Validate() error {
 			"Invalid value for `summary.summary`: %s",
 			c.Summary.Summary,
 		)
-	}
-	return nil
-}
-
-func (c *Config) Customize(path string) error {
-	custom := Config{}
-	absPath, err := filepath.Abs(path)
-	if err != nil {
-		return err
-	}
-
-	_, err = toml.DecodeFile(absPath, &custom)
-	if err != nil {
-		return err
-	}
-
-	if custom.DisplayWidth > 0 {
-		c.DisplayWidth = custom.DisplayWidth
-	}
-	if custom.Notebook.Path != "" {
-		c.Notebook.Path = custom.Notebook.Path
-	}
-	if custom.Notebook.CompactMarkerDirectory != "" {
-		c.Notebook.CompactMarkerDirectory = custom.Notebook.CompactMarkerDirectory
-	}
-	if custom.Compression.Path != "" {
-		c.Compression.Path = custom.Compression.Path
-	}
-	if custom.Compression.JsonTitle != "" {
-		c.Compression.JsonTitle = custom.Compression.JsonTitle
-	}
-	if custom.Project.Abstract != "" {
-		c.Project.Abstract = custom.Project.Abstract
-	}
-	if custom.Project.Resources != "" {
-		c.Project.Resources = custom.Project.Resources
-	}
-	if custom.Project.FurtherReading != "" {
-		c.Project.FurtherReading = custom.Project.FurtherReading
-	}
-	if custom.Log.Content != "" {
-		c.Log.Content = custom.Log.Content
-	}
-	if custom.Summary.Content != "" {
-		c.Summary.Content = custom.Summary.Content
-	}
-	if custom.Summary.Summary != "" {
-		c.Summary.Summary = custom.Summary.Summary
-	}
-
-	err = c.Validate()
-	if err != nil {
-		return err
 	}
 	return nil
 }
