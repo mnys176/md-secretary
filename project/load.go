@@ -10,14 +10,14 @@ import (
 	"github.com/mnys176/md-secretary/utils"
 )
 
-func Load(notebook string, title string) (*Project, error) {
+func Load(notebookPath string, title string) (*Project, error) {
 	p := Project{
 		Title:       title,
 		SystemTitle: utils.Systemify(title),
 	}
 
 	// ensure project exists
-	projectPath := filepath.Join(notebook, p.SystemTitle)
+	projectPath := filepath.Join(notebookPath, p.SystemTitle)
 	_, err := os.Stat(projectPath)
 	if err != nil {
 		return nil, err

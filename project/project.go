@@ -87,8 +87,8 @@ func (p Project) String(cfg *config.Config) string {
 	return strings.TrimSuffix(builder.String(), "\n")
 }
 
-func (p Project) Build(path string, cfg *config.Config) error {
-	projectPath := filepath.Join(path, p.SystemTitle)
+func (p Project) Build(notebookPath string, cfg *config.Config) error {
+	projectPath := filepath.Join(notebookPath, p.SystemTitle)
 	projectFilePath := filepath.Join(projectPath, p.SystemTitle+".md")
 	mediaPath := filepath.Join(projectPath, "media")
 
@@ -129,8 +129,8 @@ func (p Project) Build(path string, cfg *config.Config) error {
 	return nil
 }
 
-func (p Project) Extend(path string, cfg *config.Config) error {
-	projectPath := filepath.Join(path, p.SystemTitle)
+func (p Project) Extend(notebookPath string, cfg *config.Config) error {
+	projectPath := filepath.Join(notebookPath, p.SystemTitle)
 	m := NewMarker()
 	err := m.Build(projectPath, cfg)
 	if err != nil {
