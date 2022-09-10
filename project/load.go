@@ -49,6 +49,8 @@ func Load(notebook string, title string) (*Project, error) {
 			newest = t
 		}
 	}
+
+	// skip generators and assign dates directly
 	p.Start = &Marker{oldest}
 	p.End = &Marker{newest}
 

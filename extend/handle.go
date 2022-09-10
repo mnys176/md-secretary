@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/mnys176/md-secretary/config"
+	"github.com/mnys176/md-secretary/project"
 )
 
 func Handle(e *Extend) error {
@@ -47,6 +48,15 @@ func Handle(e *Extend) error {
 			return err
 		}
 	}
-	fmt.Println(e)
+
+	p, err := project.Load(e.Path, e.ProjectTitle)
+	if err != nil {
+		return err
+	}
+
+	err = p.Extend(e.Path, cfg)
+	if err != nil {
+		return err
+	}
 	return nil
 }

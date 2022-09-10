@@ -128,3 +128,13 @@ func (p Project) Build(path string, cfg *config.Config) error {
 	}
 	return nil
 }
+
+func (p Project) Extend(path string, cfg *config.Config) error {
+	projectPath := filepath.Join(path, p.SystemTitle)
+	m := NewMarker()
+	err := m.Build(projectPath, cfg)
+	if err != nil {
+		return err
+	}
+	return nil
+}
