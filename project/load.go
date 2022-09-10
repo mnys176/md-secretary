@@ -49,8 +49,8 @@ func Load(notebook string, title string) (*Project, error) {
 			newest = t
 		}
 	}
-	p.Start = Marker{oldest}
-	p.End = Marker{newest}
+	p.Start = &Marker{oldest}
+	p.End = &Marker{newest}
 
 	projectFilePath := filepath.Join(projectPath, p.SystemTitle+".md")
 	projectFileBytes, err := os.ReadFile(projectFilePath)

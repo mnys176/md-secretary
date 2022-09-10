@@ -17,8 +17,8 @@ type (
 		Title       string
 		SystemTitle string
 		Abstract    string
-		Start       Marker
-		End         Marker
+		Start       *Marker
+		End         *Marker
 	}
 	ProjectTemplateData struct {
 		Title          string
@@ -122,8 +122,7 @@ func (p Project) Build(path string, cfg *config.Config) error {
 	}
 
 	// build first marker
-	m := Marker{Date: p.Start.Date}
-	err = m.Build(projectPath, cfg)
+	err = p.Start.Build(projectPath, cfg)
 	if err != nil {
 		return err
 	}

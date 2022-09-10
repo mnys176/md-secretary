@@ -49,7 +49,7 @@ func Handle(e *Create) error {
 		}
 	}
 
-	p := project.New(e.ProjectTitle)
+	p := project.NewProject(e.ProjectTitle)
 	err = p.Build(e.Path, cfg)
 	if err != nil {
 		return err
