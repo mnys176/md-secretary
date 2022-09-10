@@ -53,7 +53,6 @@ func Handle(e *Extend) error {
 	if err != nil {
 		return err
 	}
-
 	err = p.Extend(e.Path, cfg)
 	if err != nil {
 		return err
