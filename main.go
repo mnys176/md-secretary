@@ -34,7 +34,7 @@ func main() {
 			fmt.Println(contents.Usage)
 			return
 		}
-		err = contents.Handle(&executable)
+		err = contents.Handle(executable)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -45,7 +45,7 @@ func main() {
 			fmt.Println(create.Usage)
 			return
 		}
-		err = create.Handle(&executable)
+		err = create.Handle(executable)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -56,7 +56,7 @@ func main() {
 			fmt.Println(extend.Usage)
 			return
 		}
-		err = extend.Handle(&executable)
+		err = extend.Handle(executable)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -67,7 +67,7 @@ func main() {
 			fmt.Println(scrap.Usage)
 			return
 		}
-		err = scrap.Handle(&executable)
+		err = scrap.Handle(executable)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -78,7 +78,7 @@ func main() {
 			fmt.Println(ingest.Usage)
 			return
 		}
-		err = ingest.Handle(&executable)
+		err = ingest.Handle(executable)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -89,7 +89,7 @@ func main() {
 			fmt.Println(compress.Usage)
 			return
 		}
-		err = compress.Handle(&executable)
+		err = compress.Handle(executable)
 		if err != nil {
 			fmt.Println(err)
 		}

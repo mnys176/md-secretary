@@ -6,15 +6,15 @@ import (
 	"strings"
 )
 
-func Parse(input []string) (Compress, error) {
+func Parse(input []string) (*Compress, error) {
 	// handle `md-secretary <command>` or `md-secretary <command> --help`
 	if len(input) == 1 || len(input) == 2 && (input[1] == "-h" || input[1] == "--help") {
-		return Compress{Help: true}, nil
+		return &Compress{Help: true}, nil
 	}
 
 	// only `--help` option is valid without arguments
 	if len(input) == 2 && input[1] != "-h" && input[1] != "--help" && strings.HasPrefix(input[1], "-") {
-		return Compress{}, fmt.Errorf("Unknown option: `%s`", input[1])
+		return nil, fmt.Errorf("Unknown option: `%s`", input[1])
 	}
 
 	// stored `compress` command
@@ -22,7 +22,7 @@ func Parse(input []string) (Compress, error) {
 
 	// check if default behavior is desired (no options)
 	if len(input) == 2 {
-		return parsedCompress, nil
+		return &parsedCompress, nil
 	}
 
 	var addNext bool
@@ -76,8 +76,8 @@ func Parse(input []string) (Compress, error) {
 				addNext = true
 			}
 		default:
-			return Compress{}, fmt.Errorf("Unknown option: `%s`", token)
+			return nil, fmt.Errorf("Unknown option: `%s`", token)
 		}
 	}
-	return parsedCompress, nil
+	return &parsedCompress, nil
 }

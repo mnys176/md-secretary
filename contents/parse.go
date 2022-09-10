@@ -6,15 +6,15 @@ import (
 	"strings"
 )
 
-func Parse(input []string) (Contents, error) {
+func Parse(input []string) (*Contents, error) {
 	// handle `md-secretary <command>` or `md-secretary <command> --help`
 	if len(input) == 1 || len(input) == 2 && (input[1] == "-h" || input[1] == "--help") {
-		return Contents{Help: true}, nil
+		return &Contents{Help: true}, nil
 	}
 
 	// only `--help` option is valid without arguments
 	if len(input) == 2 && input[1] != "-h" && input[1] != "--help" && strings.HasPrefix(input[1], "-") {
-		return Contents{}, fmt.Errorf("Unknown option: `%s`", input[1])
+		return nil, fmt.Errorf("Unknown option: `%s`", input[1])
 	}
 
 	// stored `contents` command
@@ -22,7 +22,7 @@ func Parse(input []string) (Contents, error) {
 
 	// check if default behavior is desired (no options)
 	if len(input) == 2 {
-		return parsedContents, nil
+		return &parsedContents, nil
 	}
 
 	var addNext bool
@@ -62,8 +62,8 @@ func Parse(input []string) (Contents, error) {
 				addNext = true
 			}
 		default:
-			return Contents{}, fmt.Errorf("Unknown option: `%s`", token)
+			return nil, fmt.Errorf("Unknown option: `%s`", token)
 		}
 	}
-	return parsedContents, nil
+	return &parsedContents, nil
 }
