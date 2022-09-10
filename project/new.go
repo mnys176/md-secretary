@@ -2,11 +2,13 @@ package project
 
 import (
 	"time"
+	"strings"
 
 	"github.com/mnys176/md-secretary/utils"
 )
 
 func NewProject(title string) *Project {
+	title = strings.TrimSpace(title)
 	return &Project{
 		Title:       title,
 		SystemTitle: utils.Systemify(title),
