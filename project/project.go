@@ -2,7 +2,7 @@ package project
 
 import (
 	_ "embed"
-	// "fmt"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -129,12 +129,29 @@ func (p Project) Build(notebookPath string, cfg *config.Config) error {
 	return nil
 }
 
-func (p Project) Extend(notebookPath string, cfg *config.Config) error {
+func (p Project) Append(notebookPath string, cfg *config.Config) error {
 	projectPath := filepath.Join(notebookPath, p.SystemTitle)
 	m := NewMarker()
 	err := m.Build(projectPath, cfg)
 	if err != nil {
 		return err
+	}
+	return nil
+}
+
+func (p Project) TearDown(notebookPath string, force bool, cfg *config.Config) error {
+	projectPath := filepath.Join(notebookPath, p.SystemTitle)
+	dialog := fmt.Sprintf("Scrapping the project `%s` will permanently"+
+		" delete all associated files, including media,"+
+		" from existence.", p.Title)
+	if force || utils.Confirm(utils.ChopString(dialog, cfg.DisplayWidth)) {
+		if !force {
+			fmt.Println("\nScrapping project...")
+		}
+		err := os.RemoveAll(projectPath)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
