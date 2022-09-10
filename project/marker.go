@@ -65,7 +65,7 @@ func (m Marker) Build(projectPath string, cfg *config.Config) error {
 		Title:      utils.Desystemify(filepath.Base(projectPath)),
 		MarkerDate: m.Date.Format("January, 2006"),
 		Date:       m.Date.Format("Monday, 01/02"),
-		Content:    cfg.Log.Content,
+		Content:    cfg.Log.ContentTemplate,
 	})
 	if err != nil {
 		return err
@@ -84,8 +84,8 @@ func (m Marker) Build(projectPath string, cfg *config.Config) error {
 		Title:      utils.Desystemify(filepath.Base(projectPath)),
 		MarkerDate: m.Date.Format("January, 2006"),
 		Date:       m.Date.Format("Monday, 01/02"),
-		Summary:    cfg.Summary.Summary,
-		Content:    cfg.Summary.Content,
+		Summary:    cfg.Summary.SummaryTemplate,
+		Content:    cfg.Summary.ContentTemplate,
 	})
 	if err != nil {
 		return err

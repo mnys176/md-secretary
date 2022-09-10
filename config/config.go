@@ -11,16 +11,16 @@ import (
 type Config struct {
 	DisplayWidth int `toml:"display-width"`
 	Project      struct {
-		Abstract       string `toml:"abstract"`
-		Resources      string `toml:"resources"`
-		FurtherReading string `toml:"further-reading"`
+		AbstractTemplate       string `toml:"abstract-template"`
+		ResourcesTemplate      string `toml:"resources-template"`
+		FurtherReadingTemplate string `toml:"further-reading-template"`
 	}
 	Log struct {
-		Content string `toml:"content"`
+		ContentTemplate string `toml:"content-template"`
 	}
 	Summary struct {
-		Summary string `toml:"summary"`
-		Content string `toml:"content"`
+		SummaryTemplate string `toml:"summary-template"`
+		ContentTemplate string `toml:"content-template"`
 	}
 	Notebook struct {
 		Path                   string `toml:"path"`
@@ -76,23 +76,23 @@ func (c *Config) Customize(path string) error {
 	if custom.Compression.JsonTitle != "" {
 		c.Compression.JsonTitle = custom.Compression.JsonTitle
 	}
-	if custom.Project.Abstract != "" {
-		c.Project.Abstract = custom.Project.Abstract
+	if custom.Project.AbstractTemplate != "" {
+		c.Project.AbstractTemplate = custom.Project.AbstractTemplate
 	}
-	if custom.Project.Resources != "" {
-		c.Project.Resources = custom.Project.Resources
+	if custom.Project.ResourcesTemplate != "" {
+		c.Project.ResourcesTemplate = custom.Project.ResourcesTemplate
 	}
-	if custom.Project.FurtherReading != "" {
-		c.Project.FurtherReading = custom.Project.FurtherReading
+	if custom.Project.FurtherReadingTemplate != "" {
+		c.Project.FurtherReadingTemplate = custom.Project.FurtherReadingTemplate
 	}
-	if custom.Log.Content != "" {
-		c.Log.Content = custom.Log.Content
+	if custom.Log.ContentTemplate != "" {
+		c.Log.ContentTemplate = custom.Log.ContentTemplate
 	}
-	if custom.Summary.Content != "" {
-		c.Summary.Content = custom.Summary.Content
+	if custom.Summary.ContentTemplate != "" {
+		c.Summary.ContentTemplate = custom.Summary.ContentTemplate
 	}
-	if custom.Summary.Summary != "" {
-		c.Summary.Summary = custom.Summary.Summary
+	if custom.Summary.SummaryTemplate != "" {
+		c.Summary.SummaryTemplate = custom.Summary.SummaryTemplate
 	}
 
 	err = c.validate()
@@ -138,40 +138,40 @@ func (c Config) validate() error {
 			c.Compression.JsonTitle,
 		)
 	}
-	if c.Project.Abstract == "" {
+	if c.Project.AbstractTemplate == "" {
 		return fmt.Errorf(
 			"Invalid value for `project.abstract`: %s",
-			c.Project.Abstract,
+			c.Project.AbstractTemplate,
 		)
 	}
-	if c.Project.Resources == "" {
+	if c.Project.ResourcesTemplate == "" {
 		return fmt.Errorf(
 			"Invalid value for `project.resources`: %s",
-			c.Project.Resources,
+			c.Project.ResourcesTemplate,
 		)
 	}
-	if c.Project.FurtherReading == "" {
+	if c.Project.FurtherReadingTemplate == "" {
 		return fmt.Errorf(
 			"Invalid value for `project.further-reading`: %s",
-			c.Project.FurtherReading,
+			c.Project.FurtherReadingTemplate,
 		)
 	}
-	if c.Log.Content == "" {
+	if c.Log.ContentTemplate == "" {
 		return fmt.Errorf(
 			"Invalid value for `log.content`: %s",
-			c.Log.Content,
+			c.Log.ContentTemplate,
 		)
 	}
-	if c.Summary.Content == "" {
+	if c.Summary.ContentTemplate == "" {
 		return fmt.Errorf(
 			"Invalid value for `summary.content`: %s",
-			c.Summary.Content,
+			c.Summary.ContentTemplate,
 		)
 	}
-	if c.Summary.Summary == "" {
+	if c.Summary.SummaryTemplate == "" {
 		return fmt.Errorf(
 			"Invalid value for `summary.summary`: %s",
-			c.Summary.Summary,
+			c.Summary.SummaryTemplate,
 		)
 	}
 	return nil

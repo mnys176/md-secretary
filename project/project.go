@@ -113,9 +113,9 @@ func (p Project) Build(notebookPath string, cfg *config.Config) error {
 	projectTemplate := template.Must(template.New("project").Parse(projectTemplateTmpl))
 	err = projectTemplate.Execute(projectFile, ProjectTemplateData{
 		Title:          p.Title,
-		Abstract:       cfg.Project.Abstract,
-		Resources:      cfg.Project.Resources,
-		FurtherReading: cfg.Project.FurtherReading,
+		Abstract:       cfg.Project.AbstractTemplate,
+		Resources:      cfg.Project.ResourcesTemplate,
+		FurtherReading: cfg.Project.FurtherReadingTemplate,
 	})
 	if err != nil {
 		return err

@@ -12,19 +12,19 @@ display-width = 72
 [project]
 
     # Abstract placeholder for newly-generated projects.
-    abstract = """\
+    abstract-template = """\
         Briefly summarize the gist of the project by providing some \
         big-picture goals. Someone who knows nothing about this \
         should have a good understanding about it after reading this \
         abstract."""
 
     # Resources placeholder for newly-generated projects.
-    resources = '''
+    resources-template = '''
 * Resources that are directly applicable go here...
 * Another resource...'''
 
     # Further reading placeholder for newly-generated projects.
-    further-reading = """
+    further-reading-template = """
 * Resources that are indirectly applicable go here...
 * Another resource..."""
 
@@ -32,7 +32,7 @@ display-width = 72
 [log]
 
     # Content placeholder in log files for newly-generated projects.
-    content = '''
+    content-template = '''
 * Brain dump goes here.
     * Anything interesting that you find at all.
     * It does not matter if it is that important, it could be useful!
@@ -43,12 +43,12 @@ display-width = 72
 [summary]
 
     # Summary placeholder in summary files for newly-generated projects.
-    summary = """\
+    summary-template = """\
         Here goes a summary of a big milestone that occured during \
         this month."""
 
     # Content placeholder in summary files for newly-generated projects.
-    content = '''
+    content-template = '''
 * Milestones go here.
     * Any elaboration for this milestone is appreciated.
 * If something else really cool happened, do not be shy!
