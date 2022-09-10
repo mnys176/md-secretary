@@ -53,7 +53,6 @@ func Handle(e *Contents) error {
 	if err != nil {
 		return err
 	}
-
 	fmt.Println("\n" + p.String(cfg) + "\n")
 	return nil
 }
