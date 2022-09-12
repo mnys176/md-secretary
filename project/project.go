@@ -32,7 +32,7 @@ type (
 
 /*
 
-type ProjectJson struct {
+type Project struct {
 	Title string
 	SystemTitle string
 	Abstract string
@@ -42,10 +42,10 @@ type ProjectJson struct {
 	}
 	Resources []Note
 	FurtherReading []Note
-	Markers []MarkerJson
+	Markers []Marker
 }
 
-type MarkerJson struct {
+type Marker struct {
 	Date string
 	LogFile []BrainDump
 	SummaryFile []Milestone
