@@ -67,7 +67,7 @@ display-width = 72
     # example. When this value is set to `compact`, the resulting marker
     # directory will be called "jan-22"; when `comfortable`, it will be
     # called "january-2022".
-    compact-marker-directory = "compact"
+    compact-marker-directory = 'compact'
 
 # Configuration of the compression process.
 [compression]
@@ -97,5 +97,11 @@ display-width = 72
     #
     # One can see that these two placeholders can be used together in
     # any order and any number of time, though that may be a bit
-    # pointless.
-    json-title = '$project'
+    # pointless. Note that any internal spaces will be converted to
+    # hyphens automatically and external spaces will be removed...
+    #
+    #    json-title = '    f o  o  '   -> "f-o--o.json"
+    #
+    # This is to ensure compatibility with the operating system.
+    # json-title = '$project-$date'
+    json-title = '    d.e-$projectoffer.json-$date---h'

@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/mnys176/md-secretary/config"
+	"github.com/mnys176/md-secretary/project"
 )
 
 func Handle(e *Compress) error {
@@ -55,6 +56,15 @@ func Handle(e *Compress) error {
 			return err
 		}
 	}
-	fmt.Println(e)
+	// fmt.Println(e)
+
+	p, err := project.Load(e.Path, e.ProjectTitle)
+	if err != nil {
+		return err
+	}
+	err = p.Export(e.Path, e.Output, e.Transfer, cfg)
+	if err != nil {
+		return err
+	}
 	return nil
 }

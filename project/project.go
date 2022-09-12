@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 	"text/template"
+	// "encoding/json"
+	"time"
 
 	"github.com/mnys176/md-secretary/config"
 	"github.com/mnys176/md-secretary/utils"
@@ -27,6 +29,48 @@ type (
 		FurtherReading string
 	}
 )
+
+/*
+
+type ProjectJson struct {
+	Title string
+	SystemTitle string
+	Abstract string
+	Media []struct {
+		Filename string
+		Base64 string
+	}
+	Resources []Note
+	FurtherReading []Note
+	Markers []MarkerJson
+}
+
+type MarkerJson struct {
+	Date string
+	LogFile []BrainDump
+	SummaryFile []Milestone
+}
+
+type BrainDump struct {
+	Date string
+	Content []Note
+}
+
+type Milestone struct {
+	Summary string
+	BrainDump
+}
+
+type Note struct {
+	Text string
+	Urls []struct {
+		Link string
+		Alt string
+	}
+	Children []Note
+}
+
+*/
 
 //go:embed templates/project.tmpl
 var projectTemplateTmpl string
@@ -153,5 +197,47 @@ func (p Project) TearDown(notebookPath string, force bool, cfg *config.Config) e
 			return err
 		}
 	}
+	return nil
+}
+
+func (p Project) Export(notebookPath string, outputPath string, transfer bool, cfg *config.Config) error {
+	var jsonTitle string
+	if filepath.Ext(outputPath) == ".json" {
+		jsonTitle = filepath.Base(outputPath)
+		outputPath = filepath.Dir(outputPath)
+	} else {
+		jsonTitle = strings.TrimSpace(cfg.Compression.JsonTitle)
+	}
+	jsonTitle = strings.TrimSuffix(jsonTitle, ".json")
+	jsonTitle = strings.TrimSpace(jsonTitle)
+	jsonTitle = utils.Systemify(jsonTitle)
+
+	// replace `$project` with the sanitized project title
+	jsonTitle = strings.ReplaceAll(jsonTitle, "$project", p.SystemTitle)
+
+	// replace `$date` with the current date
+	year, month, day := time.Now().Date()
+	today := fmt.Sprintf("%02d-%02d-%04d", month, day, year)
+	jsonTitle = strings.ReplaceAll(jsonTitle, "$date", today)
+
+	// NOTE: Anything created by a command is "systemified". Since
+	//       the parent directory is assumed to exist prior to the
+	//       creation of the JSON file, no sanitation will be
+	//       performed on the parent directory, but sanitation will
+	//       always be done on the filename itself.
+	jsonFilePath := filepath.Join(outputPath, jsonTitle+".json")
+
+	// create JSON file
+	jsonFile, err := os.Create(jsonFilePath)
+	defer jsonFile.Close()
+	if err != nil {
+		return err
+	}
+
+	// b, err := json.MarshalIndent(p, "", "    ")
+	// if err != nil {
+	// 	return err
+	// }
+	// os.Stdout.Write(b)
 	return nil
 }
