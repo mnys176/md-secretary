@@ -2,18 +2,6 @@ package utils
 
 import "strings"
 
-func prepareInput(input string) []string {
-	raw := strings.Split(strings.TrimSpace(input), "\n\n")
-	clean := make([]string, 0)
-	for _, r := range raw {
-		s := strings.TrimSpace(r)
-		if len(s) > 0 {
-			clean = append(clean, s)
-		}
-	}
-	return clean
-}
-
 func fitParagraphToLineLength(paragraph string, length int) string {
 	var paragraphBuilder, lineBuilder strings.Builder
 	words := strings.Split(paragraph, " ")
@@ -50,14 +38,14 @@ func fitParagraphToLineLength(paragraph string, length int) string {
 }
 
 func ChopString(input string, length int) string {
-	paragraphs := prepareInput(input)
+	paragraphs := SanitizeParagraphs(input)
 
 	// truncate each paragraph to predefined line length
 	var outputBuilder strings.Builder
-	for _, p := range paragraphs {
+	for _, p := range strings.Split(paragraphs, "\n\n") {
 		outputBuilder.WriteString(fitParagraphToLineLength(p, length) + "\n\n")
 	}
 
 	// trim trailing newlines
-	return strings.TrimSuffix(outputBuilder.String(), "\n\n")
+	return outputBuilder.String()[:outputBuilder.Len()-2]
 }
