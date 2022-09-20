@@ -13,7 +13,7 @@ import (
 func Load(notebookPath string, title string) (*Project, error) {
 	title = strings.TrimSpace(title)
 	p := Project{
-		Title:       title,
+		Title:       utils.Desystemify(title),
 		SystemTitle: utils.Systemify(title),
 	}
 
