@@ -270,6 +270,20 @@ func (p Project) MarshalJSON() ([]byte, error) {
 			Media          []File     `json:"media"`
 		}
 	)
+
+	projectPath := filepath.Join(p.Notebook, p.SystemTitle)
+	projectFilePath := filepath.Join(projectPath, p.SystemTitle+".md")
+
+	// compress project file
+	projectFileBytes, err := os.ReadFile(projectFilePath)
+	if err != nil {
+		return nil, err
+	}
+	projectFileCompressed, err := utils.CompressEncode(projectFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
 	return json.Marshal(ProjectJson{
 		Title:       p.Title,
 		SystemTitle: p.SystemTitle,
@@ -284,7 +298,7 @@ func (p Project) MarshalJSON() ([]byte, error) {
 		FurtherReading: []Resource{
 			Resource{"http://example.com/further-reading", "Read me too."},
 		},
-		ProjectFile: File{p.SystemTitle, "blah"},
+		ProjectFile: File{p.SystemTitle + ".md", string(projectFileCompressed)},
 		Markers:     p.Markers,
 		Media:       []File{File{"img.jpg", "photo"}},
 	})

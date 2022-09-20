@@ -108,9 +108,38 @@ func (m Marker) MarshalJSON() ([]byte, error) {
 			SummaryFile File  `json:"summaryFile"`
 		}
 	)
+
+	var mode string = "January-2006"
+	if m.Compact {
+		mode = "Jan-06"
+	}
+	markerPath := filepath.Join(m.Project, strings.ToLower(m.Date.Format(mode)))
+	logFilePath := filepath.Join(markerPath, "log.md")
+	summaryFilePath := filepath.Join(markerPath, "summary.md")
+
+	// compress log file
+	logFileBytes, err := os.ReadFile(logFilePath)
+	if err != nil {
+		return nil, err
+	}
+	logFileCompressed, err := utils.CompressEncode(logFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	// compress summary file
+	summaryFileBytes, err := os.ReadFile(summaryFilePath)
+	if err != nil {
+		return nil, err
+	}
+	summaryFileCompressed, err := utils.CompressEncode(summaryFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
 	return json.Marshal(MarkerJson{
 		Date:        m.Date.Unix(),
-		LogFile:     File{"log.md", "blah"},
-		SummaryFile: File{"summary.md", "blah"},
+		LogFile:     File{"log.md", string(logFileCompressed)},
+		SummaryFile: File{"summary.md", string(summaryFileCompressed)},
 	})
 }
