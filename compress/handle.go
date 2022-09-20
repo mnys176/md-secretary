@@ -56,7 +56,6 @@ func Handle(e *Compress) error {
 			return err
 		}
 	}
-	// fmt.Println(e)
 
 	p, err := project.Load(e.Path, e.ProjectTitle)
 	if err != nil {
