@@ -5,7 +5,7 @@ import "strings"
 func snapToNearestMultiple(input int, multiple int) int {
 	var lower, upper int
 	for {
-		if lower + multiple >= input {
+		if lower+multiple >= input {
 			break
 		}
 		lower += multiple
@@ -37,19 +37,19 @@ func SanitizeUnorderedList(raw string, expectedIndent int) string {
 		currentIndent := len(spaces)
 		if hasPrefix {
 			// correct misaligned indent if it is slightly off
-			if currentIndent % expectedIndent != 0 {
+			if currentIndent%expectedIndent != 0 {
 				currentIndent = snapToNearestMultiple(currentIndent, expectedIndent)
 			}
 
 			// children must always be one level higher than their parent
-			if currentIndent > previousIndent + expectedIndent {
+			if currentIndent > previousIndent+expectedIndent {
 				currentIndent = previousIndent + expectedIndent
 			}
 
 			// scale indent down for consistency
-			spaces = strings.Repeat(" ", currentIndent / expectedIndent)
+			spaces = strings.Repeat(" ", currentIndent/expectedIndent)
 			previousIndent = currentIndent
-			builder.WriteString(spaces+prefix+text+"\n")
+			builder.WriteString(spaces + prefix + text + "\n")
 		}
 	}
 
@@ -63,7 +63,7 @@ func SanitizeParagraphs(raw string) string {
 	for _, p := range paragraphs {
 		p = strings.TrimSpace(p)
 		if len(p) > 0 {
-			builder.WriteString(p+"\n\n")
+			builder.WriteString(p + "\n\n")
 		}
 	}
 
