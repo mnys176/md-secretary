@@ -36,7 +36,10 @@ func Load(notebookPath string, title string) (*Project, error) {
 		matched, _ := regexp.MatchString(`[a-z]{3}-\d{2}`, f.Name())
 		if matched {
 			t, _ := time.Parse("Jan-06", f.Name())
-			p.Markers = append(p.Markers, Marker{t})
+			p.Markers = append(p.Markers, Marker{
+				Project: projectPath,
+				Date:    t,
+			})
 		}
 	}
 

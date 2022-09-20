@@ -168,7 +168,7 @@ func (p Project) Build(cfg *config.Config) error {
 	}
 
 	// build first marker
-	err = p.Start.Build(projectPath, cfg)
+	err = p.Start.Build(cfg)
 	if err != nil {
 		return err
 	}
@@ -177,8 +177,8 @@ func (p Project) Build(cfg *config.Config) error {
 
 func (p Project) Append(cfg *config.Config) error {
 	projectPath := filepath.Join(p.Notebook, p.SystemTitle)
-	m := NewMarker()
-	err := m.Build(projectPath, cfg)
+	m := NewMarker(projectPath)
+	err := m.Build(cfg)
 	if err != nil {
 		return err
 	}

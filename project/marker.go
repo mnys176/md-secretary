@@ -15,7 +15,8 @@ import (
 
 type (
 	Marker struct {
-		Date time.Time
+		Project string
+		Date    time.Time
 	}
 	LogTemplateData struct {
 		Title      string
@@ -38,12 +39,12 @@ var logTemplateTmpl string
 //go:embed templates/summary.tmpl
 var summaryTemplateTmpl string
 
-func (m Marker) Build(projectPath string, cfg *config.Config) error {
+func (m Marker) Build(cfg *config.Config) error {
 	var mode string = "January-06"
 	if cfg.Notebook.CompactMarkerDirectory == "compact" {
 		mode = "Jan-06"
 	}
-	markerPath := filepath.Join(projectPath, strings.ToLower(m.Date.Format(mode)))
+	markerPath := filepath.Join(m.Project, strings.ToLower(m.Date.Format(mode)))
 	logFilePath := filepath.Join(markerPath, "log.md")
 	summaryFilePath := filepath.Join(markerPath, "summary.md")
 
@@ -63,7 +64,7 @@ func (m Marker) Build(projectPath string, cfg *config.Config) error {
 	// render template and populate log file with starter content
 	logTemplate := template.Must(template.New("log").Parse(logTemplateTmpl))
 	err = logTemplate.Execute(logFile, LogTemplateData{
-		Title:      utils.Desystemify(filepath.Base(projectPath)),
+		Title:      utils.Desystemify(filepath.Base(m.Project)),
 		MarkerDate: m.Date.Format("January, 2006"),
 		Date:       m.Date.Format("Monday, 01/02"),
 		Content:    cfg.Log.ContentTemplate,
@@ -82,7 +83,7 @@ func (m Marker) Build(projectPath string, cfg *config.Config) error {
 	// render template and populate summary file with starter content
 	summaryTemplate := template.Must(template.New("summary").Parse(summaryTemplateTmpl))
 	err = summaryTemplate.Execute(summaryFile, SummaryTemplateData{
-		Title:      utils.Desystemify(filepath.Base(projectPath)),
+		Title:      utils.Desystemify(filepath.Base(m.Project)),
 		MarkerDate: m.Date.Format("January, 2006"),
 		Date:       m.Date.Format("Monday, 01/02"),
 		Summary:    cfg.Summary.SummaryTemplate,
