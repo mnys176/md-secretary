@@ -17,6 +17,7 @@ type (
 	Marker struct {
 		Project string
 		Date    time.Time
+		Compact bool
 	}
 	LogTemplateData struct {
 		Title      string
@@ -41,7 +42,7 @@ var summaryTemplateTmpl string
 
 func (m Marker) Build(cfg *config.Config) error {
 	var mode string = "January-06"
-	if cfg.Notebook.CompactMarkerDirectory == "compact" {
+	if m.Compact {
 		mode = "Jan-06"
 	}
 	markerPath := filepath.Join(m.Project, strings.ToLower(m.Date.Format(mode)))

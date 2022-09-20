@@ -167,6 +167,8 @@ func (p Project) Build(cfg *config.Config) error {
 		return err
 	}
 
+	p.Start.Compact = cfg.Notebook.CompactMarkerDirectory == "compact"
+
 	// build first marker
 	err = p.Start.Build(cfg)
 	if err != nil {
@@ -178,6 +180,7 @@ func (p Project) Build(cfg *config.Config) error {
 func (p Project) Append(cfg *config.Config) error {
 	projectPath := filepath.Join(p.Notebook, p.SystemTitle)
 	m := NewMarker(projectPath)
+	m.Compact = cfg.Notebook.CompactMarkerDirectory == "compact"
 	err := m.Build(cfg)
 	if err != nil {
 		return err
