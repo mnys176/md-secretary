@@ -33,13 +33,14 @@ func Load(notebookPath string, title string) (*Project, error) {
 
 	// aggregate marker directories
 	for _, f := range files {
-		compact, _ := regexp.MatchString(`[a-z]{3}-\d{2}`, f.Name())
-		comfortable, _ := regexp.MatchString(`[a-z]{3,9}-\d{4}`, f.Name())
+		compact, _ := regexp.MatchString(`^[a-z]{3}-\d{2}$`, f.Name())
+		comfortable, _ := regexp.MatchString(`^[a-z]{3,9}-\d{4}$`, f.Name())
+
 		var mode string
 		if compact {
 			mode = "Jan-06"
 		} else if comfortable {
-			mode = "January-06"
+			mode = "January-2006"
 		}
 		if compact || comfortable {
 			t, _ := time.Parse(mode, f.Name())

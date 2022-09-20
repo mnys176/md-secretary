@@ -41,7 +41,7 @@ var logTemplateTmpl string
 var summaryTemplateTmpl string
 
 func (m Marker) Build(cfg *config.Config) error {
-	var mode string = "January-06"
+	var mode string = "January-2006"
 	if m.Compact {
 		mode = "Jan-06"
 	}
