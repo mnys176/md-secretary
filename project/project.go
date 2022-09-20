@@ -21,6 +21,7 @@ type (
 		Abstract    string
 		Start       *Marker
 		End         *Marker
+		Markers     []Marker
 	}
 	ProjectTemplateData struct {
 		Title          string

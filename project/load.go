@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"sort"
 
 	"github.com/mnys176/md-secretary/utils"
 )
@@ -29,31 +30,21 @@ func Load(notebookPath string, title string) (*Project, error) {
 		return nil, err
 	}
 
-	// aggregate marker directory names to determine project lifespan
-	markerDirectories := []string{}
+	// aggregate marker directories
 	for _, f := range files {
 		matched, _ := regexp.MatchString(`[a-z]{3}-\d{2}`, f.Name())
 		if matched {
-			markerDirectories = append(markerDirectories, f.Name())
+			t, _ := time.Parse("Jan-06", f.Name())
+			p.Markers = append(p.Markers, Marker{t})
 		}
 	}
 
-	// find the oldest and newest markers in the project
-	newest := time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC)
-	oldest := time.Date(9999, time.December, 1, 0, 0, 0, 0, time.UTC)
-	for _, m := range markerDirectories {
-		t, _ := time.Parse("Jan-06", m)
-		if t.Before(oldest) {
-			oldest = t
-		}
-		if t.After(newest) {
-			newest = t
-		}
-	}
-
-	// skip generators and assign dates directly
-	p.Start = &Marker{oldest}
-	p.End = &Marker{newest}
+	// find the start and end markers in the project
+	sort.Slice(p.Markers, func(i int, j int) bool {
+		return p.Markers[i].Date.Before(p.Markers[j].Date)
+	})
+	p.Start = &p.Markers[0]
+	p.End = &p.Markers[len(p.Markers)-1]
 
 	projectFilePath := filepath.Join(projectPath, p.SystemTitle+".md")
 	projectFileBytes, err := os.ReadFile(projectFilePath)
