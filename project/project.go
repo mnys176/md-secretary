@@ -2,12 +2,12 @@ package project
 
 import (
 	_ "embed"
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
-	// "encoding/json"
 	"time"
 
 	"github.com/mnys176/md-secretary/config"
@@ -201,7 +201,7 @@ func (p Project) TearDown(notebookPath string, force bool, cfg *config.Config) e
 	return nil
 }
 
-func (p Project) Export(notebookPath string, outputPath string, transfer bool, cfg *config.Config) error {
+func (p *Project) Export(notebookPath string, outputPath string, transfer bool, cfg *config.Config) error {
 	var jsonTitle string
 	if filepath.Ext(outputPath) == ".json" {
 		jsonTitle = filepath.Base(outputPath)
@@ -235,10 +235,53 @@ func (p Project) Export(notebookPath string, outputPath string, transfer bool, c
 		return err
 	}
 
-	// b, err := json.MarshalIndent(p, "", "    ")
-	// if err != nil {
-	// 	return err
-	// }
-	// os.Stdout.Write(b)
+	b, err := json.MarshalIndent(p, "", "    ")
+	if err != nil {
+		return err
+	}
+	os.Stdout.Write(b)
 	return nil
+}
+
+func (p Project) MarshalJSON() ([]byte, error) {
+	type (
+		File struct {
+			FileName string `json:"fileName"`
+			Data     string `json:"data"`
+		}
+		Resource struct {
+			Url string `json:"url"`
+			Alt string `json:"alt"`
+		}
+		ProjectJson struct {
+			Title          string     `json:"title"`
+			SystemTitle    string     `json:"systemTitle"`
+			Abstract       string     `json:"abstract"`
+			Start          int64      `json:"start"`
+			End            int64      `json:"end"`
+			Resources      []Resource `json:"resources"`
+			FurtherReading []Resource `json:"furtherReading"`
+			ProjectFile    File       `json:"projectFile"`
+			Markers        []Marker   `json:"markers"`
+			Media          []File     `json:"media"`
+		}
+	)
+	return json.Marshal(ProjectJson{
+		Title:       p.Title,
+		SystemTitle: p.SystemTitle,
+		Abstract:    p.Abstract,
+		Start:       p.Start.Date.Unix(),
+		End:         p.End.Date.Unix(),
+		Resources: []Resource{
+			Resource{"http://example.com/resource1", "Resource 1"},
+			Resource{"http://example.com/resource2", "Resource 2"},
+			Resource{"http://example.com/resource3", "Resource 3"},
+		},
+		FurtherReading: []Resource{
+			Resource{"http://example.com/further-reading", "Read me too."},
+		},
+		ProjectFile: File{p.SystemTitle, "blah"},
+		Markers:     p.Markers,
+		Media:       []File{File{"img.jpg", "photo"}},
+	})
 }

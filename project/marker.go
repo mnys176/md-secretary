@@ -2,6 +2,7 @@ package project
 
 import (
 	_ "embed"
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
@@ -91,4 +92,23 @@ func (m Marker) Build(projectPath string, cfg *config.Config) error {
 		return err
 	}
 	return nil
+}
+
+func (m Marker) MarshalJSON() ([]byte, error) {
+	type (
+		File struct {
+			FileName string `json:"fileName"`
+			Data     string `json:"data"`
+		}
+		MarkerJson struct {
+			Date        int64 `json:"date"`
+			LogFile     File  `json:"logFile"`
+			SummaryFile File  `json:"summaryFile"`
+		}
+	)
+	return json.Marshal(MarkerJson{
+		Date:        m.Date.Unix(),
+		LogFile:     File{"log.md", "blah"},
+		SummaryFile: File{"summary.md", "blah"},
+	})
 }
