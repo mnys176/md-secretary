@@ -7,13 +7,16 @@ import (
 	"github.com/mnys176/md-secretary/utils"
 )
 
-func NewProject(title string) *Project {
+func NewProject(notebookPath string, title string) *Project {
 	title = strings.TrimSpace(title)
+	m := NewMarker()
 	return &Project{
 		Title:       title,
 		SystemTitle: utils.Systemify(title),
-		Start:       NewMarker(),
-		End:         NewMarker(),
+		Start:       m,
+		End:         m,
+		Markers:     []Marker{*m},
+		Notebook:    notebookPath,
 	}
 }
 

@@ -16,10 +16,11 @@ func Load(notebookPath string, title string) (*Project, error) {
 	p := Project{
 		Title:       utils.Desystemify(title),
 		SystemTitle: utils.Systemify(title),
+		Notebook:    notebookPath,
 	}
 
 	// ensure project exists
-	projectPath := filepath.Join(notebookPath, p.SystemTitle)
+	projectPath := filepath.Join(p.Notebook, p.SystemTitle)
 	_, err := os.Stat(projectPath)
 	if err != nil {
 		return nil, err

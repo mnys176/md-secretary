@@ -53,7 +53,7 @@ func Handle(e *Scrap) error {
 	if err != nil {
 		return err
 	}
-	err = p.TearDown(e.Path, e.Force, cfg)
+	err = p.TearDown(e.Force, cfg)
 	if err != nil {
 		return err
 	}

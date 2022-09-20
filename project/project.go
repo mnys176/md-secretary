@@ -22,6 +22,7 @@ type (
 		Start       *Marker
 		End         *Marker
 		Markers     []Marker
+		Notebook    string
 	}
 	ProjectTemplateData struct {
 		Title          string
@@ -132,8 +133,8 @@ func (p Project) String(cfg *config.Config) string {
 	return strings.TrimSuffix(builder.String(), "\n")
 }
 
-func (p Project) Build(notebookPath string, cfg *config.Config) error {
-	projectPath := filepath.Join(notebookPath, p.SystemTitle)
+func (p Project) Build(cfg *config.Config) error {
+	projectPath := filepath.Join(p.Notebook, p.SystemTitle)
 	projectFilePath := filepath.Join(projectPath, p.SystemTitle+".md")
 	mediaPath := filepath.Join(projectPath, "media")
 
@@ -174,8 +175,8 @@ func (p Project) Build(notebookPath string, cfg *config.Config) error {
 	return nil
 }
 
-func (p Project) Append(notebookPath string, cfg *config.Config) error {
-	projectPath := filepath.Join(notebookPath, p.SystemTitle)
+func (p Project) Append(cfg *config.Config) error {
+	projectPath := filepath.Join(p.Notebook, p.SystemTitle)
 	m := NewMarker()
 	err := m.Build(projectPath, cfg)
 	if err != nil {
@@ -184,8 +185,8 @@ func (p Project) Append(notebookPath string, cfg *config.Config) error {
 	return nil
 }
 
-func (p Project) TearDown(notebookPath string, force bool, cfg *config.Config) error {
-	projectPath := filepath.Join(notebookPath, p.SystemTitle)
+func (p Project) TearDown(force bool, cfg *config.Config) error {
+	projectPath := filepath.Join(p.Notebook, p.SystemTitle)
 	dialog := fmt.Sprintf("Scrapping the project `%s` will permanently"+
 		" delete all associated files, including media,"+
 		" from existence.", p.Title)
@@ -201,7 +202,7 @@ func (p Project) TearDown(notebookPath string, force bool, cfg *config.Config) e
 	return nil
 }
 
-func (p *Project) Export(notebookPath string, outputPath string, transfer bool, cfg *config.Config) error {
+func (p *Project) Export(outputPath string, transfer bool, cfg *config.Config) error {
 	var jsonTitle string
 	if filepath.Ext(outputPath) == ".json" {
 		jsonTitle = filepath.Base(outputPath)
