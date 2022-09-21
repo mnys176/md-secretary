@@ -290,14 +290,6 @@ func (p Project) MarshalJSON() ([]byte, error) {
 		Abstract:    p.Abstract,
 		Start:       p.Start.Date.Unix(),
 		End:         p.End.Date.Unix(),
-		Resources: []Resource{
-			Resource{"http://example.com/resource1", "Resource 1"},
-			Resource{"http://example.com/resource2", "Resource 2"},
-			Resource{"http://example.com/resource3", "Resource 3"},
-		},
-		FurtherReading: []Resource{
-			Resource{"http://example.com/further-reading", "Read me too."},
-		},
 		ProjectFile: File{p.SystemTitle + ".md", string(projectFileCompressed)},
 		Markers:     p.Markers,
 		Media:       []File{File{"img.jpg", "photo"}},
