@@ -42,48 +42,6 @@ type (
 	}
 )
 
-/*
-
-type Project struct {
-	Title string
-	SystemTitle string
-	Abstract string
-	Media []struct {
-		Filename string
-		Base64 string
-	}
-	Resources []Note
-	FurtherReading []Note
-	Markers []Marker
-}
-
-type Marker struct {
-	Date string
-	LogFile []BrainDump
-	SummaryFile []Milestone
-}
-
-type BrainDump struct {
-	Date string
-	Content []Note
-}
-
-type Milestone struct {
-	Summary string
-	BrainDump
-}
-
-type Note struct {
-	Text string
-	Urls []struct {
-		Link string
-		Alt string
-	}
-	Children []Note
-}
-
-*/
-
 //go:embed templates/project.tmpl
 var projectTemplateTmpl string
 
