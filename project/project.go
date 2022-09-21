@@ -304,7 +304,7 @@ func (p Project) MarshalJSON() ([]byte, error) {
 		}
 		media = append(media, File{
 			FileName: f.Name(),
-			Data: fCompressed,
+			Data:     fCompressed,
 		})
 	}
 
