@@ -109,6 +109,5 @@ func Load(notebookPath string, title string) (*Project, error) {
 			Alt: matches[0][2],
 		})
 	}
-
 	return &p, nil
 }
