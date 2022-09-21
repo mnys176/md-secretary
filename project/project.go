@@ -34,7 +34,7 @@ type (
 	}
 	File struct {
 		FileName string `json:"fileName"`
-		Data     string `json:"data"`
+		Data     []byte `json:"data"`
 	}
 	Resource struct {
 		Url string `json:"url"`
@@ -275,8 +275,9 @@ func (p Project) MarshalJSON() ([]byte, error) {
 
 	projectPath := filepath.Join(p.Notebook, p.SystemTitle)
 	projectFilePath := filepath.Join(projectPath, p.SystemTitle+".md")
+	mediaPath := filepath.Join(projectPath, "media")
 
-	// compress project file
+	// compress and encode project file
 	projectFileBytes, err := os.ReadFile(projectFilePath)
 	if err != nil {
 		return nil, err
@@ -284,6 +285,27 @@ func (p Project) MarshalJSON() ([]byte, error) {
 	projectFileCompressed, err := utils.CompressEncode(projectFileBytes)
 	if err != nil {
 		return nil, err
+	}
+
+	// compress and encode media
+	media := []File{}
+	mediaFiles, err := os.ReadDir(mediaPath)
+	if err != nil {
+		return nil, err
+	}
+	for _, f := range mediaFiles {
+		fBytes, err := os.ReadFile(filepath.Join(mediaPath, f.Name()))
+		if err != nil {
+			return nil, err
+		}
+		fCompressed, err := utils.CompressEncode(fBytes)
+		if err != nil {
+			return nil, err
+		}
+		media = append(media, File{
+			FileName: f.Name(),
+			Data: fCompressed,
+		})
 	}
 
 	return json.Marshal(ProjectJson{
@@ -294,8 +316,8 @@ func (p Project) MarshalJSON() ([]byte, error) {
 		End:            p.End.Date.Unix(),
 		Resources:      p.Resources,
 		FurtherReading: p.FurtherReading,
-		ProjectFile:    File{p.SystemTitle + ".md", string(projectFileCompressed)},
+		ProjectFile:    File{p.SystemTitle + ".md", projectFileCompressed},
 		Markers:        p.Markers,
-		Media:          []File{File{"img.jpg", "photo"}},
+		Media:          media,
 	})
 }

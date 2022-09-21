@@ -134,7 +134,7 @@ func (m Marker) MarshalJSON() ([]byte, error) {
 
 	return json.Marshal(MarkerJson{
 		Date:        m.Date.Unix(),
-		LogFile:     File{"log.md", string(logFileCompressed)},
-		SummaryFile: File{"summary.md", string(summaryFileCompressed)},
+		LogFile:     File{"log.md", logFileCompressed},
+		SummaryFile: File{"summary.md", summaryFileCompressed},
 	})
 }
