@@ -263,8 +263,6 @@ func (p Project) MarshalJSON() ([]byte, error) {
 			Abstract       string     `json:"abstract"`
 			Start          int64      `json:"start"`
 			End            int64      `json:"end"`
-			Resources      []Resource `json:"resources"`
-			FurtherReading []Resource `json:"furtherReading"`
 			ProjectFile    File       `json:"projectFile"`
 			Markers        []Marker   `json:"markers"`
 			Media          []File     `json:"media"`
