@@ -160,7 +160,7 @@ func (p Project) TearDown(force bool, cfg *config.Config) error {
 	projectPath := filepath.Join(p.Notebook, p.SystemTitle)
 	dialog := fmt.Sprintf("Scrapping the project `%s` will permanently"+
 		" delete all associated files, including media,"+
-		" from existence.", p.Title)
+		" from the notebook `%s`.", p.Title, p.Notebook)
 	if force || utils.Confirm(utils.ChopString(dialog, cfg.DisplayWidth)) {
 		if !force {
 			fmt.Println("\nScrapping project...")
@@ -173,7 +173,7 @@ func (p Project) TearDown(force bool, cfg *config.Config) error {
 	return nil
 }
 
-func (p *Project) Export(outputPath string, transfer bool, cfg *config.Config) error {
+func (p *Project) Export(outputPath string, transfer bool, force bool, cfg *config.Config) error {
 	var jsonTitle string
 	if filepath.Ext(outputPath) == ".json" {
 		jsonTitle = filepath.Base(outputPath)
@@ -206,12 +206,33 @@ func (p *Project) Export(outputPath string, transfer bool, cfg *config.Config) e
 	if err != nil {
 		return err
 	}
-
-	b, err := json.MarshalIndent(p, "", "    ")
+	data, err := json.MarshalIndent(p, "", "    ")
 	if err != nil {
 		return err
 	}
-	os.Stdout.Write(b)
+	jsonFile.Write(data)
+
+	// finish now when not transferring
+	if !transfer {
+		return nil
+	}
+
+	projectPath := filepath.Join(p.Notebook, p.SystemTitle)
+	dialog := fmt.Sprintf("Transferring the project `%s` after"+
+		" compression will permanently delete all associated files,"+
+		" including media, from the notebook `%s`.", p.Title, p.Notebook)
+	if force || utils.Confirm(utils.ChopString(dialog, cfg.DisplayWidth)) {
+		if !force {
+			fmt.Println("\nTransferring project...")
+		}
+		err := os.RemoveAll(projectPath)
+		if err != nil {
+			return err
+		}
+	}
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
