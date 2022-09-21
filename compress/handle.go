@@ -61,7 +61,7 @@ func Handle(e *Compress) error {
 	if err != nil {
 		return err
 	}
-	err = p.Export(e.Output, e.Transfer, cfg)
+	err = p.Export(e.Output, e.Transfer, e.Force, cfg)
 	if err != nil {
 		return err
 	}

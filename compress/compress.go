@@ -14,6 +14,7 @@ type Compress struct {
 	Config       string
 	Output       string
 	Transfer     bool
+	Force        bool
 	Help         bool
 }
 
@@ -23,6 +24,7 @@ Path         : %s
 Output       : %s
 Config       : %s
 Transfer     : %t
+Force        : %t
 Help         : %t`
 
 	return fmt.Sprintf(

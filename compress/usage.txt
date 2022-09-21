@@ -19,5 +19,9 @@ Options:
         Removes the project from the notebook after generating the JSON
         file.
 
+    --force, -f
+        Disables any confirmation and performs the operation
+        automatically. Use this flag with caution.
+
     --help, -h
         Displays this help message and exits.

@@ -52,6 +52,11 @@ func Parse(input []string) (*Compress, error) {
 				found["transfer"] = true
 				parsedCompress.Transfer = true
 			}
+		case "-f", "--force":
+			if !found["force"] {
+				found["force"] = true
+				parsedCompress.Force = true
+			}
 		case "-h", "--help":
 			if !found["help"] {
 				found["help"] = true
