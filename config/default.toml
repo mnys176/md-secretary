@@ -20,13 +20,12 @@ display-width = 72
 
     # Resources placeholder for newly-generated projects.
     resources-template = '''
-* Resources that are directly applicable go here...
-* Another resource...'''
+* [Useful Resource](https://example.com/resource)
+* [Another Resource](https://example.com/another)'''
 
     # Further reading placeholder for newly-generated projects.
-    further-reading-template = """
-* Resources that are indirectly applicable go here...
-* Another resource..."""
+    further-reading-template = '''
+* [Potentially Helpful](https://example.com/potential)'''
 
 # Configuration of log files.
 [log]
@@ -104,4 +103,4 @@ display-width = 72
     #
     # This is to ensure compatibility with the operating system.
     # json-title = '$project-$date'
-    json-title = '    d.e-$projectoffer.json-$date---h'
+    json-title = '$project-$date'

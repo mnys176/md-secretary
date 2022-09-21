@@ -16,19 +16,29 @@ import (
 
 type (
 	Project struct {
-		Title       string
-		SystemTitle string
-		Abstract    string
-		Start       *Marker
-		End         *Marker
-		Markers     []Marker
-		Notebook    string
+		Title          string
+		SystemTitle    string
+		Abstract       string
+		Resources      []Resource
+		FurtherReading []Resource
+		Start          *Marker
+		End            *Marker
+		Markers        []Marker
+		Notebook       string
 	}
 	ProjectTemplateData struct {
 		Title          string
 		Abstract       string
 		Resources      string
 		FurtherReading string
+	}
+	File struct {
+		FileName string `json:"fileName"`
+		Data     string `json:"data"`
+	}
+	Resource struct {
+		Url string `json:"url"`
+		Alt string `json:"alt"`
 	}
 )
 
@@ -249,20 +259,14 @@ func (p *Project) Export(outputPath string, transfer bool, cfg *config.Config) e
 
 func (p Project) MarshalJSON() ([]byte, error) {
 	type (
-		File struct {
-			FileName string `json:"fileName"`
-			Data     string `json:"data"`
-		}
-		Resource struct {
-			Url string `json:"url"`
-			Alt string `json:"alt"`
-		}
 		ProjectJson struct {
 			Title          string     `json:"title"`
 			SystemTitle    string     `json:"systemTitle"`
 			Abstract       string     `json:"abstract"`
 			Start          int64      `json:"start"`
 			End            int64      `json:"end"`
+			Resources      []Resource `json:"resources"`
+			FurtherReading []Resource `json:"furtherReading"`
 			ProjectFile    File       `json:"projectFile"`
 			Markers        []Marker   `json:"markers"`
 			Media          []File     `json:"media"`
@@ -283,13 +287,15 @@ func (p Project) MarshalJSON() ([]byte, error) {
 	}
 
 	return json.Marshal(ProjectJson{
-		Title:       p.Title,
-		SystemTitle: p.SystemTitle,
-		Abstract:    p.Abstract,
-		Start:       p.Start.Date.Unix(),
-		End:         p.End.Date.Unix(),
-		ProjectFile: File{p.SystemTitle + ".md", string(projectFileCompressed)},
-		Markers:     p.Markers,
-		Media:       []File{File{"img.jpg", "photo"}},
+		Title:          p.Title,
+		SystemTitle:    p.SystemTitle,
+		Abstract:       p.Abstract,
+		Start:          p.Start.Date.Unix(),
+		End:            p.End.Date.Unix(),
+		Resources:      p.Resources,
+		FurtherReading: p.FurtherReading,
+		ProjectFile:    File{p.SystemTitle + ".md", string(projectFileCompressed)},
+		Markers:        p.Markers,
+		Media:          []File{File{"img.jpg", "photo"}},
 	})
 }

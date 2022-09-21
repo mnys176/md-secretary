@@ -67,13 +67,47 @@ func Load(notebookPath string, title string) (*Project, error) {
 
 	// project abstract is between the title and resources headings
 	titleHeadingRegex := regexp.MustCompile(`# [\w ]*\n\n`)
-	resourcesHeadingRegex := regexp.MustCompile(`\n\n#{2} Resources`)
-	abstractStart := titleHeadingRegex.FindIndex(projectFileBytes)[1]
-	abstractEnd := resourcesHeadingRegex.FindIndex(projectFileBytes)[0]
+	resourcesHeadingRegex := regexp.MustCompile(`\n\n#{2} Resources\n\n`)
+	furtherReadingHeadingRegex := regexp.MustCompile(`\n\n#{3} Further Reading\n\n`)
 
-	// abstract is not present if this is false
+	titleHeadingIndeces := titleHeadingRegex.FindIndex(projectFileBytes)
+	resourcesHeadingIndeces := resourcesHeadingRegex.FindIndex(projectFileBytes)
+	furtherReadingHeadingIndeces := furtherReadingHeadingRegex.FindIndex(projectFileBytes)
+
+	abstractStart := titleHeadingIndeces[1]
+	abstractEnd := resourcesHeadingIndeces[0]
+	resourcesStart := resourcesHeadingIndeces[1]
+	resourcesEnd := furtherReadingHeadingIndeces[0]
+	furtherReadingStart := furtherReadingHeadingIndeces[1]
+
+	// these are necessary checks because they exist in the middle
 	if abstractStart < abstractEnd {
 		p.Abstract = strings.TrimSpace(string(projectFileBytes[abstractStart:abstractEnd]))
+	}
+	resourceRegex := regexp.MustCompile(`^\* (\[([\w ]+)\]\((.+?)\))$`)
+	if resourcesStart < resourcesEnd {
+		resources := strings.TrimSpace(string(projectFileBytes[resourcesStart:resourcesEnd]))
+		for _, r := range strings.Split(resources, "\n") {
+			if !resourceRegex.MatchString(r) {
+				continue
+			}
+			matches := resourceRegex.FindAllStringSubmatch(r, -1)
+			p.Resources = append(p.Resources, Resource{
+				Url: matches[0][3],
+				Alt: matches[0][2],
+			})
+		}
+	}
+	furtherReading := strings.TrimSpace(string(projectFileBytes[furtherReadingStart:]))
+	for _, fr := range strings.Split(furtherReading, "\n") {
+		if !resourceRegex.MatchString(fr) {
+			continue
+		}
+		matches := resourceRegex.FindAllStringSubmatch(fr, -1)
+		p.FurtherReading = append(p.FurtherReading, Resource{
+			Url: matches[0][3],
+			Alt: matches[0][2],
+		})
 	}
 
 	return &p, nil

@@ -8,6 +8,7 @@ import (
 	"strings"
 	"text/template"
 	"time"
+	// "regexp"
 
 	"github.com/mnys176/md-secretary/config"
 	"github.com/mnys176/md-secretary/utils"
@@ -97,17 +98,11 @@ func (m Marker) Build(cfg *config.Config) error {
 }
 
 func (m Marker) MarshalJSON() ([]byte, error) {
-	type (
-		File struct {
-			FileName string `json:"fileName"`
-			Data     string `json:"data"`
-		}
-		MarkerJson struct {
-			Date        int64 `json:"date"`
-			LogFile     File  `json:"logFile"`
-			SummaryFile File  `json:"summaryFile"`
-		}
-	)
+	type MarkerJson struct {
+		Date        int64 `json:"date"`
+		LogFile     File  `json:"logFile"`
+		SummaryFile File  `json:"summaryFile"`
+	}
 
 	var mode string = "January-2006"
 	if m.Compact {
